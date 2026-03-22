@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lernprogramm Elektrizitaetslehre</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,system-ui,sans-serif;background:linear-gradient(160deg,#eef2f7 0%,#dce6f0 100%);color:#1a1a2e;min-height:100vh;padding-bottom:60px}
+b{color:#1F4E79}
+
+.hdr{background:linear-gradient(135deg,#0d2f4f 0%,#1F4E79 40%,#2E75B6 100%);color:#fff;padding:28px 16px 22px;text-align:center;position:relative;overflow:hidden}
+.hdr::after{content:"";position:absolute;bottom:-30px;left:-10%;width:120%;height:60px;background:linear-gradient(160deg,#eef2f7 0%,#dce6f0 100%);border-radius:50% 50% 0 0}
+.hdr h1{font-size:1.5rem;margin-bottom:4px;letter-spacing:.5px}
+.hdr p{font-size:.85rem;opacity:.8}
+.hdr .sub{font-size:.75rem;opacity:.5;margin-top:4px}
+
+.nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:20px 0 10px;padding:0 10px}
+.nav a{padding:10px 18px;background:linear-gradient(135deg,#2E75B6,#1F4E79);color:#fff;border-radius:30px;text-decoration:none;font-size:.85rem;font-weight:600;box-shadow:0 3px 10px rgba(31,78,121,.25);transition:transform .2s}
+.nav a:active{transform:scale(.96)}
+
+.mn{max-width:720px;margin:0 auto;padding:10px 14px}
+
+.sec{margin:22px 0;border-radius:18px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.sec-fc .sec-title{background:linear-gradient(135deg,#6c5ce7,#a29bfe)}
+.sec-quiz .sec-title{background:linear-gradient(135deg,#e17055,#fab1a0)}
+.sec-gap .sec-title{background:linear-gradient(135deg,#00b894,#55efc4)}
+.sec-match .sec-title{background:linear-gradient(135deg,#fdcb6e,#f39c12)}
+.sec-sim .sec-title{background:linear-gradient(135deg,#0984e3,#74b9ff)}
+.sec-calc .sec-title{background:linear-gradient(135deg,#d63031,#ff7675)}
+.sec-sort .sec-title{background:linear-gradient(135deg,#6c5ce7,#fd79a8)}
+.sec-circuit .sec-title{background:linear-gradient(135deg,#00b894,#0984e3)}
+.sec-meter .sec-title{background:linear-gradient(135deg,#e17055,#fdcb6e)}
+
+.sec-title{color:#fff;padding:16px 20px;font-size:1.1rem;font-weight:700;letter-spacing:.3px}
+.sec-body{background:#fff}
+
+/* FLASHCARDS */
+.fc-item{padding:10px 16px}
+.fc-item input[type=checkbox]{display:none}
+.fc-card{perspective:800px;cursor:pointer}
+.fc-inner{position:relative;width:100%;min-height:170px;transition:transform .6s;transform-style:preserve-3d}
+.fc-item input:checked ~ .fc-card .fc-inner{transform:rotateY(180deg)}
+.fc-face{position:absolute;top:0;left:0;width:100%;min-height:170px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;text-align:center}
+.fc-front{background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff;box-shadow:0 4px 15px rgba(108,92,231,.25)}
+.fc-front .q{font-size:1.05rem;font-weight:700;line-height:1.5}
+.fc-front .tip{font-size:.7rem;opacity:.5;margin-top:12px}
+.fc-front .tl{margin-top:10px}
+.fc-back{background:linear-gradient(135deg,#f8f0ff,#fff);color:#333;transform:rotateY(180deg);border:2px solid #a29bfe;box-shadow:0 4px 15px rgba(108,92,231,.15)}
+.fc-back .a{font-size:.93rem;line-height:1.75;text-align:left}
+.fc-back .a b{color:#6c5ce7}
+.fc-hint{text-align:center;font-size:.72rem;color:#999;margin-top:6px}
+
+/* DETAILS */
+details{border-bottom:1px solid #f0f0f0}
+details:last-child{border-bottom:none}
+summary{padding:16px 20px;font-weight:600;font-size:.93rem;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;color:#333;transition:background .2s}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"";display:inline-block;width:28px;height:28px;min-width:28px;border-radius:50%;background:linear-gradient(135deg,#00b894,#55efc4);flex-shrink:0;position:relative}
+summary::after{content:"?";position:absolute;color:#fff;font-weight:700;font-size:.85rem;margin-left:-20px;margin-top:4px}
+details[open] summary{background:linear-gradient(90deg,#f0fdf8,#fff);color:#00b894}
+.ans{padding:12px 20px 18px;font-size:.92rem;line-height:1.75;color:#444;background:#fafbff;border-left:4px solid #55efc4;margin:0 12px 12px 12px;border-radius:0 10px 10px 0}
+
+.tl{display:inline-block;font-size:.65rem;padding:3px 10px;border-radius:12px;font-weight:600;vertical-align:middle;margin-left:auto;color:#fff;letter-spacing:.3px}
+.tl-th{background:linear-gradient(135deg,#0984e3,#74b9ff)}
+.tl-wg{background:linear-gradient(135deg,#d63031,#ff7675)}
+.tl-sk{background:linear-gradient(135deg,#00b894,#55efc4);color:#014d3c}
+.tl-me{background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#7c5c04}
+
+/* QUIZ */
+.quiz-q{padding:18px 20px;border-bottom:1px solid #f0f0f0;position:relative}
+.quiz-q:last-child{border-bottom:none}
+.quiz-q p{font-weight:700;font-size:.95rem;margin-bottom:12px;color:#1a1a2e;padding-left:36px;position:relative}
+.quiz-q p::before{content:"";position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e17055,#fab1a0)}
+.quiz-q .num{position:absolute;left:7px;top:4px;color:#fff;font-size:.8rem;font-weight:700}
+.quiz-q label{display:block;padding:11px 16px;margin:5px 0;border:2px solid #eee;border-radius:12px;font-size:.9rem;cursor:pointer;transition:all .15s;background:#fafafa}
+.quiz-q label:active{transform:scale(.98)}
+.quiz-q input[type=radio]{position:absolute;opacity:0;pointer-events:none}
+.quiz-q input.qc:checked+label{border-color:#00b894;background:linear-gradient(90deg,#d4f8ed,#f0fdf8);color:#014d3c;font-weight:600}
+.quiz-q input.qc:checked+label::before{content:"\2713 ";color:#00b894;font-weight:700}
+.quiz-q input.qw:checked+label{border-color:#e17055;background:linear-gradient(90deg,#fde8e4,#fff5f3);color:#7a1b0e;font-weight:600}
+.quiz-q input.qw:checked+label::before{content:"\2717 ";color:#e17055;font-weight:700}
+.quiz-q .qfb{display:none;margin-top:10px;padding:12px 16px;border-radius:12px;font-size:.85rem;font-weight:500}
+.quiz-q input.qc:checked~.qfb.qr{display:block;background:linear-gradient(90deg,#d4f8ed,#f0fdf8);color:#014d3c;border-left:4px solid #00b894}
+.quiz-q input.qw:checked~.qfb.qw2{display:block;background:linear-gradient(90deg,#fde8e4,#fff5f3);color:#7a1b0e;border-left:4px solid #e17055}
+
+/* ZUORDNUNG */
+.match-label{padding:14px 20px;font-weight:700;color:#1a1a2e;font-size:.95rem;background:linear-gradient(90deg,#fef9e7,#fff);border-bottom:1px solid #f0f0f0}
+.ma-item{padding:8px 16px}
+.ma-item input[type=checkbox]{display:none}
+.ma-item label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.ma-l{flex:1;background:linear-gradient(135deg,#1F4E79,#2E75B6);color:#fff;padding:12px 10px;border-radius:12px;text-align:center;font-size:.83rem;font-weight:600;box-shadow:0 2px 6px rgba(31,78,121,.15)}
+.ma-arrow{font-size:1.4rem;min-width:24px;text-align:center;color:#ddd}
+.ma-r{flex:1;padding:12px 10px;border-radius:12px;text-align:center;font-size:.83rem;font-weight:700;border:2px dashed #ddd;color:#ddd;background:linear-gradient(135deg,#f8f8f8,#f0f0f0);transition:all .35s ease}
+.ma-r::before{content:"Tippe!";font-weight:600;font-size:.8rem}
+.ma-item input:checked ~ label .ma-arrow{color:#f39c12}
+.ma-item input:checked ~ label .ma-r{background:linear-gradient(135deg,#fef9e7,#fdebd0);color:#7c5c04;border:2px solid #f5d89a;box-shadow:0 2px 6px rgba(243,156,18,.1)}
+.ma-item input:checked ~ label .ma-r::before{content:none}
+.ma-r span{display:none}
+.ma-item input:checked ~ label .ma-r span{display:inline}
+hr.msep{border:none;height:2px;background:linear-gradient(90deg,transparent,#f0e0b0,transparent);margin:6px 20px}
+
+/* SCHNELL-CHECK */
+.check{background:linear-gradient(135deg,#fff,#eef2f7);border:2px solid #2E75B6;border-radius:18px;padding:20px;margin:24px 0;font-size:.88rem;line-height:2;box-shadow:0 4px 16px rgba(46,117,182,.1)}
+.check h3{color:#1F4E79;margin-bottom:10px;font-size:1.05rem}
+.check .fact{display:inline-block;background:#e8f4fd;padding:2px 10px;border-radius:8px;margin:2px;font-weight:500}
+.check .fact b{color:#1F4E79}
+
+hr.sep{border:none;height:2px;background:linear-gradient(90deg,transparent,#ddd,transparent);margin:8px 20px}
+
+/* ===== SIMULATOR SVG ===== */
+.sim-wrap{padding:20px 16px}
+.sim-cat-row{display:flex;gap:8px;margin-bottom:10px}
+.sim-cat{flex:1;padding:10px;border:none;border-radius:12px 12px 0 0;font-size:.88rem;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.sim-cat.active{color:#fff}
+.sim-cat:not(.active){background:#eef2f7;color:#888}
+.sim-cat-und.active{background:linear-gradient(135deg,#0984e3,#74b9ff)}
+.sim-cat-oder.active{background:linear-gradient(135deg,#e17055,#fab1a0)}
+.sim-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;justify-content:center}
+.sim-tab{padding:9px 14px;border:2px solid #ddd;border-radius:12px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;background:#fff;color:#555}
+.sim-tab:active{transform:scale(.96)}
+.sim-tab.active{color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(0,0,0,.12)}
+.sim-tab.active.cat-und{background:linear-gradient(135deg,#0984e3,#74b9ff)}
+.sim-tab.active.cat-oder{background:linear-gradient(135deg,#e17055,#fab1a0)}
+
+.sim-desc{text-align:center;font-size:.88rem;color:#555;margin-bottom:16px;line-height:1.6;padding:0 10px}
+.sim-desc b{color:#1F4E79}
+
+.sim-svg-wrap{background:linear-gradient(135deg,#f8fafd,#eef2f7);border-radius:16px;padding:16px 8px;margin-bottom:16px;text-align:center;overflow-x:auto}
+.sim-svg-wrap svg{max-width:100%;height:auto;cursor:pointer}
+
+.sim-status{text-align:center;font-size:.95rem;font-weight:700;padding:12px;border-radius:12px;margin-top:4px}
+.sim-status.on{background:linear-gradient(90deg,#d4f8ed,#f0fdf8);color:#014d3c}
+.sim-status.off{background:linear-gradient(90deg,#fde8e4,#fff5f3);color:#7a1b0e}
+
+.sim-hint{text-align:center;font-size:.78rem;color:#aaa;margin-top:8px}
+
+/* Wahrheitstabelle */
+.truth-table{margin:16px auto 0;border-collapse:collapse;font-size:.88rem;text-align:center}
+.truth-table th{background:linear-gradient(135deg,#1F4E79,#2E75B6);color:#fff;padding:10px 18px;font-weight:700}
+.truth-table td{padding:8px 18px;border:1px solid #e0e0e0}
+.truth-table tr:nth-child(even) td{background:#f8fafd}
+.truth-table tr.active-row td{background:linear-gradient(90deg,#e8f4fd,#d4f0ff);font-weight:700;border-color:#74b9ff}
+.truth-table .on{color:#00b894;font-weight:700}
+.truth-table .off{color:#e17055;font-weight:700}
+
+.sim-info{margin-top:14px;padding:14px 16px;background:linear-gradient(90deg,#e8f4fd,#fff);border-radius:12px;font-size:.85rem;line-height:1.7;color:#333;border-left:4px solid #74b9ff}
+
+/* ===== UMRECHNER ===== */
+.calc-wrap{padding:20px 16px}
+.calc-task{background:linear-gradient(135deg,#fff,#fef9f9);border:2px solid #eee;border-radius:16px;padding:20px;text-align:center;margin-bottom:14px}
+.calc-task .question{font-size:1.1rem;font-weight:700;color:#1a1a2e;margin-bottom:14px;line-height:1.5}
+.calc-task .question .val{color:#d63031;font-size:1.3rem}
+.calc-input-row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.calc-input{width:140px;padding:12px 16px;border:2px solid #ddd;border-radius:12px;font-size:1.1rem;text-align:center;font-weight:700;outline:none;transition:border-color .2s}
+.calc-input:focus{border-color:#0984e3}
+.calc-unit{font-size:1rem;font-weight:700;color:#666}
+.calc-btn{padding:12px 28px;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;color:#fff;background:linear-gradient(135deg,#d63031,#ff7675);box-shadow:0 3px 10px rgba(214,48,49,.25);margin-top:12px}
+.calc-btn:active{transform:scale(.96)}
+.calc-fb{margin-top:14px;padding:14px 16px;border-radius:12px;font-size:.9rem;font-weight:600;display:none;text-align:center}
+.calc-fb.show{display:block}
+.calc-fb.correct{background:linear-gradient(90deg,#d4f8ed,#f0fdf8);color:#014d3c;border:2px solid #00b894}
+.calc-fb.wrong{background:linear-gradient(90deg,#fde8e4,#fff5f3);color:#7a1b0e;border:2px solid #e17055}
+.calc-score{text-align:center;font-size:.9rem;color:#666;margin-top:10px}
+.calc-score b{color:#1F4E79}
+.calc-next{padding:10px 24px;border:none;border-radius:12px;font-size:.9rem;font-weight:600;cursor:pointer;background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff;margin-top:12px;display:none;box-shadow:0 3px 10px rgba(9,132,227,.25)}
+.calc-next:active{transform:scale(.96)}
+.calc-next.show{display:inline-block}
+
+/* ===== SORTIERUNG ===== */
+.sort-wrap{padding:20px 16px}
+.sort-desc{text-align:center;font-size:.88rem;color:#555;margin-bottom:16px;line-height:1.5}
+.sort-items{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.sort-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border:2px solid #eee;border-radius:14px;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none}
+.sort-item:active{transform:scale(.98)}
+.sort-item .sort-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;background:#ccc;transition:background .3s;flex-shrink:0}
+.sort-item.placed .sort-num{background:linear-gradient(135deg,#6c5ce7,#a29bfe)}
+.sort-item .sort-text{font-size:.92rem;font-weight:600;color:#333}
+.sort-check-btn{display:block;width:100%;padding:14px;border:none;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(135deg,#6c5ce7,#fd79a8);box-shadow:0 3px 12px rgba(108,92,231,.25);transition:all .2s}
+.sort-check-btn:active{transform:scale(.97)}
+.sort-fb{margin-top:14px;padding:14px 16px;border-radius:12px;font-size:.9rem;font-weight:600;display:none;text-align:center;line-height:1.6}
+.sort-fb.show{display:block}
+.sort-fb.correct{background:linear-gradient(90deg,#d4f8ed,#f0fdf8);color:#014d3c;border:2px solid #00b894}
+.sort-fb.wrong{background:linear-gradient(90deg,#fde8e4,#fff5f3);color:#7a1b0e;border:2px solid #e17055}
+.sort-item.right{border-color:#00b894;background:linear-gradient(90deg,#f0fdf8,#fff)}
+.sort-item.right .sort-num{background:linear-gradient(135deg,#00b894,#55efc4)}
+.sort-item.wrong-pos{border-color:#e17055;background:linear-gradient(90deg,#fff5f3,#fff)}
+.sort-item.wrong-pos .sort-num{background:linear-gradient(135deg,#e17055,#ff7675)}
+.sort-reset{display:none;margin-top:10px;padding:10px 24px;border:none;border-radius:12px;font-size:.88rem;font-weight:600;cursor:pointer;background:#eee;color:#666}
+.sort-reset.show{display:inline-block}
+
+/* ===== STROMKREIS-CHECK ===== */
+.circ-wrap{padding:20px 16px}
+.circ-scenario{background:linear-gradient(135deg,#f8fafd,#eef2f7);border-radius:16px;padding:16px 8px 20px;margin-bottom:16px;text-align:center;overflow-x:auto}
+.circ-scenario .circ-title{font-size:.95rem;font-weight:700;color:#1a1a2e;margin-bottom:8px}
+.circ-scenario svg{max-width:100%;height:auto}
+.circ-desc{font-size:.82rem;color:#888;margin-top:8px;line-height:1.5;padding:0 10px}
+.circ-btns{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.circ-btn{flex:1;max-width:160px;padding:14px;border:2px solid #eee;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;background:#fff;transition:all .2s;text-align:center}
+.circ-btn:active{transform:scale(.96)}
+.circ-btn.selected.correct{border-color:#00b894;background:linear-gradient(90deg,#d4f8ed,#f0fdf8);color:#014d3c}
+.circ-btn.selected.incorrect{border-color:#e17055;background:linear-gradient(90deg,#fde8e4,#fff5f3);color:#7a1b0e}
+.circ-fb{margin-top:12px;padding:12px 16px;border-radius:12px;font-size:.85rem;font-weight:500;display:none;text-align:center;line-height:1.6}
+.circ-fb.show{display:block}
+.circ-fb.correct{background:linear-gradient(90deg,#d4f8ed,#f0fdf8);color:#014d3c;border-left:4px solid #00b894}
+.circ-fb.wrong{background:linear-gradient(90deg,#fde8e4,#fff5f3);color:#7a1b0e;border-left:4px solid #e17055}
+.circ-nav-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.circ-nav-btn{padding:10px 20px;border:none;border-radius:12px;font-size:.88rem;font-weight:600;cursor:pointer;background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff;box-shadow:0 3px 10px rgba(9,132,227,.2)}
+.circ-nav-btn:active{transform:scale(.96)}
+.circ-counter{text-align:center;font-size:.82rem;color:#999;margin-top:8px}
+
+/* ===== MESSGERAET ===== */
+.meter-wrap{padding:20px 16px}
+.meter-task{background:linear-gradient(135deg,#f8fafd,#eef2f7);border-radius:16px;padding:16px;text-align:center;margin-bottom:14px}
+.meter-task svg{max-width:320px;height:auto;margin:0 auto;display:block}
+.meter-range{margin-top:10px;font-size:.9rem;font-weight:700;color:#1F4E79}
+.meter-input-row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px}
+.meter-input{width:120px;padding:12px 16px;border:2px solid #ddd;border-radius:12px;font-size:1.1rem;text-align:center;font-weight:700;outline:none;transition:border-color .2s}
+.meter-input:focus{border-color:#e17055}
+.meter-unit-label{font-size:1rem;font-weight:700;color:#666}
+.meter-btn{padding:12px 28px;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(135deg,#e17055,#fdcb6e);box-shadow:0 3px 10px rgba(225,112,85,.25);margin-top:12px}
+.meter-btn:active{transform:scale(.96)}
+.meter-fb{margin-top:14px;padding:14px 16px;border-radius:12px;font-size:.9rem;font-weight:600;display:none;text-align:center}
+.meter-fb.show{display:block}
+.meter-fb.correct{background:linear-gradient(90deg,#d4f8ed,#f0fdf8);color:#014d3c;border:2px solid #00b894}
+.meter-fb.wrong{background:linear-gradient(90deg,#fde8e4,#fff5f3);color:#7a1b0e;border:2px solid #e17055}
+.meter-next{padding:10px 24px;border:none;border-radius:12px;font-size:.9rem;font-weight:600;cursor:pointer;background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff;margin-top:12px;display:none;box-shadow:0 3px 10px rgba(9,132,227,.25)}
+.meter-next:active{transform:scale(.96)}
+.meter-next.show{display:inline-block}
+.meter-score{text-align:center;font-size:.9rem;color:#666;margin-top:10px}
+.meter-score b{color:#1F4E79}
+.meter-hint{font-size:.8rem;color:#999;margin-top:6px;line-height:1.5}
+
+/* ===== MATCHING GAME ===== */
+.mg-group-title{padding:12px 0 8px;font-weight:700;font-size:.95rem;color:#1a1a2e}
+.mg-row{display:flex;gap:8px;align-items:center;margin:6px 0;min-height:48px}
+.mg-left{flex:1;padding:12px 10px;background:linear-gradient(135deg,#1F4E79,#2E75B6);color:#fff;border-radius:12px;text-align:center;font-size:.83rem;font-weight:600;cursor:pointer;transition:all .2s;border:3px solid transparent}
+.mg-left.selected{border-color:#fdcb6e;box-shadow:0 0 12px rgba(253,203,110,.4);transform:scale(1.03)}
+.mg-left.matched{opacity:.6;cursor:default}
+.mg-arrow{font-size:1.2rem;min-width:24px;text-align:center;color:#ddd}
+.mg-right{flex:1;padding:12px 10px;border-radius:12px;text-align:center;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .2s;border:2px solid #ddd;background:#f8f8f8;color:#555}
+.mg-right.selected{border-color:#fdcb6e;background:linear-gradient(135deg,#fef9e7,#fdebd0);color:#7c5c04}
+.mg-right.matched{border-color:#00b894;background:linear-gradient(135deg,#d4f8ed,#f0fdf8);color:#014d3c;cursor:default}
+.mg-right.wrong{animation:shake .4s;border-color:#e17055;background:#fff5f3}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.mg-hint{text-align:center;font-size:.8rem;color:#aaa;margin:10px 0 6px}
+
+@media(max-width:500px){
+  .nav a{padding:8px 14px;font-size:.8rem}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>&#9889; Elektrizitaetslehre I</h1>
+  <p>Dein Lernprogramm fuer die Klassenarbeit</p>
+  <div class="sub">Leonie &ndash; Physik 8c</div>
+</div>
+
+<div class="mn">
+
+<div class="nav">
+  <a href="#fc">&#127183; Karten</a>
+  <a href="#quiz">&#10067; Quiz</a>
+  <a href="#gap">&#9999;&#65039; Luecken</a>
+  <a href="#match">&#128279; Zuordnung</a>
+  <a href="#sim">&#128268; Simulator</a>
+  <a href="#meter">&#128207; Messgeraet</a>
+  <a href="#calc">&#128290; Umrechner</a>
+  <a href="#sort">&#128203; Sortieren</a>
+  <a href="#circ">&#128161; Stromkreis</a>
+</div>
+
+<!-- ==================== KARTEIKARTEN ==================== -->
+<div class="sec sec-fc" id="fc">
+<div class="sec-title">&#127183; Karteikarten &ndash; Tippe zum Umdrehen!</div>
+<div class="sec-body">
+
+<div class="fc-item"><input type="checkbox" id="fc1"><label for="fc1" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Wie ist ein Atom aufgebaut?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>Kern</b> = Protonen (+) + Neutronen (neutral).<br><b>Huelle</b> = Elektronen (&ndash;).<br>Neutral: gleich viele Protonen wie Elektronen.</div></div>
+</div></label><div class="fc-hint">Nochmal tippen = zurueckdrehen</div></div>
+
+<div class="fc-item"><input type="checkbox" id="fc2"><label for="fc2" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Wie ist ein elektrischer Leiter aufgebaut?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>Raeumliches Gitter aus Atomen</b> mit <b>frei beweglichen Elektronen</b> dazwischen.<br>Strom = Elektronen bewegen sich gemeinsam in eine Richtung (~1 mm/s).</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc3"><label for="fc3" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Warum leiten manche Stoffe und manche nicht?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>Leiter</b> (Kupfer): Elektronen schwach gebunden &rarr; frei beweglich.<br><b>Isolator</b> (Kunststoff): Elektronen fest gebunden &rarr; kein Strom.</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc4"><label for="fc4" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Was ist die Stromstaerke?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a">Gibt an, <b>wie viele Elektronenpackungen pro Sekunde</b> vorbeifliessen.<br><br>Formelzeichen: <b>I</b><br>Einheit: <b>A (Ampere)</b></div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc5"><label for="fc5" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Wie rechnet man mA in A um?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>1 A = 1.000 mA</b><br><br>Komma <b>3 Stellen nach links</b> (mA &rarr; A).<br>150 mA = 0,15 A | 2.700 mA = 2,7 A | 80 mA = 0,08 A</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc6"><label for="fc6" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Warum fliesst Strom bei geschlossenem Stromkreis?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>Minuspol</b> = Elektronenueberschuss<br><b>Pluspol</b> = Elektronenmangel<br>Elektronen fliessen von &ndash; nach +.<br><br>&#9888;&#65039; <i>Elektronenfluss (&ndash;&rarr;+) ist entgegengesetzt zur techn. Stromrichtung (+&rarr;&ndash;)!</i></div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc7"><label for="fc7" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Was ist die Spannung?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a">Der Antrieb fuer den Strom = Potentialunterschied.<br><br>Formelzeichen: <b>U</b><br>Einheit: <b>V (Volt)</b><br>1 kV = 1.000 V | 1 V = 1.000 mV</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc8"><label for="fc8" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Wodurch entsteht Spannung?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a">Batterie: durch <b>chemische Reaktion</b>.<br>Kraftwerk: durch <b>Bewegungsenergie</b>.<br>Die Quelle erzeugt Elektronenueberschuss/-mangel.</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc9"><label for="fc9" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Spannung an der Haushaltssteckdose?</div><span class="tl tl-th">Theorie</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>230 Volt</b><br><br>Taschenlampe 4,5 V | Auto 24 V | Hochspannung ~300.000 V</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc10"><label for="fc10" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Welche 4 Wirkungen hat Strom?</div><span class="tl tl-wg">Wirkungen</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a">&#128161; <b>Lichtwirkung</b> &ndash; Lampe, Display<br>&#128293; <b>Waermewirkung</b> &ndash; Buegeleisen, Toaster<br>&#129522; <b>Magnetische Wirkung</b> &ndash; E-Motor, Lautsprecher<br>&#9879;&#65039; <b>Chemische Wirkung</b> &ndash; Akku laden<br><br><i>Merke: Viele Geraete nutzen mehrere gleichzeitig!</i></div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc11"><label for="fc11" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Ab wann wird Strom gefaehrlich?</div><span class="tl tl-wg">Gefahren</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a">Ab ca. <b>40&ndash;50 mA</b> lebensgefaehrlich (Herzrhythmusstoerungen).<br><br>&#9888;&#65039; Besonders gefaehrlich: <b>Wasser + Strom</b>!</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc12"><label for="fc12" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Erste Hilfe bei Stromunfall?</div><span class="tl tl-wg">Gefahren</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>1.</b> Strom aus (Sicherungskasten)<br><b>2.</b> Person mit Holz trennen<br><b>3.</b> Notruf <b>112</b><br><b>4.</b> Kein Herzschlag? &rarr; <b>Herzdruckmassage</b><br><br><i>Wichtig: Zuerst Strom aus! Sonst Gefahr fuer Helfer.</i></div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc13"><label for="fc13" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Was braucht ein funktionierender Stromkreis?</div><span class="tl tl-sk">Stromkreis</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>1.</b> Spannungsquelle (Batterie)<br><b>2.</b> Leitfaehiges Material (Draht)<br><b>3.</b> Umwandler (Lampe)<br><b>4.</b> Kreis muss <b>geschlossen</b> sein</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc14"><label for="fc14" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Regeln fuer den Schaltplan?</div><span class="tl tl-sk">Stromkreis</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a">Verbindungen = <b>gerade Linien</b><br>Bauteile <b>nicht in Ecken</b><br>Richtungsaenderung im <b>rechten Winkel</b> (90&deg;)<br><b>Schaltzeichen</b> aus Formelsammlung</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc15"><label for="fc15" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Was ist eine Reihenschaltung?</div><span class="tl tl-sk">Stromkreis</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a">Umwandler <b>hintereinander</b>. Nur <b>ein</b> Stromkreis.<br>Einer kaputt &rarr; <b>alle aus</b>!<br><br>= <b>UND-Schaltung</b>: Alle Schalter muessen zu sein.<br>Bsp: Rasenmaeher, Waschmaschine</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc16"><label for="fc16" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Was ist eine Parallelschaltung?</div><span class="tl tl-sk">Stromkreis</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a">Umwandler <b>nebeneinander</b>. Jeder eigener Stromkreis.<br>Einer kaputt &rarr; andere <b>weiter an</b>!<br><br>= <b>ODER-Schaltung</b>: Ein Schalter reicht.<br>Bsp: Zimmerbeleuchtung</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc17"><label for="fc17" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Wie baut man das Amperemeter ein?</div><span class="tl tl-me">Messen</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>In Reihe</b> &ndash; Strom muss durchs Geraet (Engpass).<br>Misst: <b>Stromstaerke I</b> in Ampere.</div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc18"><label for="fc18" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">Wie baut man das Voltmeter ein?</div><span class="tl tl-me">Messen</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>Parallel</b> zum Verbraucher.<br>Misst: <b>Spannung U</b> in Volt.<br><br><i>Eselsbruecke: <b>A</b>mperemeter = <b>R</b>eihe. <b>V</b>oltmeter = <b>P</b>arallel.</i></div></div>
+</div></label></div>
+
+<div class="fc-item"><input type="checkbox" id="fc19"><label for="fc19" class="fc-card"><div class="fc-inner">
+<div class="fc-face fc-front"><div class="q">3 Schritte beim Messgeraet?</div><span class="tl tl-me">Messen</span><div class="tip">Tippe zum Umdrehen</div></div>
+<div class="fc-face fc-back"><div class="a"><b>1.</b> Pluspol an Pluspol<br><b>2.</b> Minuspol an Minuspol<br><b>3.</b> <b>Groessten Messbereich</b> einstellen!</div></div>
+</div></label></div>
+
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== QUIZ ==================== -->
+<div class="sec sec-quiz" id="quiz">
+<div class="sec-title">&#10067; Quiz &ndash; Waehle die richtige Antwort!</div>
+<div class="sec-body">
+
+<div class="quiz-q"><p><span class="num">1</span>Welches Formelzeichen hat die Stromstaerke?</p>
+<input type="radio" name="q1" id="q1a" class="qw"><label for="q1a">U</label>
+<input type="radio" name="q1" id="q1b" class="qc"><label for="q1b">I</label>
+<input type="radio" name="q1" id="q1c" class="qw"><label for="q1c">S</label>
+<input type="radio" name="q1" id="q1d" class="qw"><label for="q1d">A</label>
+<div class="qfb qr">&#128161; I steht fuer Stromstaerke (vom franz. &bdquo;Intensit&eacute; du courant&ldquo;).</div>
+<div class="qfb qw2">&#128161; Nicht ganz! Die richtige Antwort ist <b>I</b> &ndash; steht fuer Stromstaerke.</div></div>
+
+<div class="quiz-q"><p><span class="num">2</span>Wie viel mA sind 2,5 A?</p>
+<input type="radio" name="q2" id="q2a" class="qw"><label for="q2a">25 mA</label>
+<input type="radio" name="q2" id="q2b" class="qw"><label for="q2b">250 mA</label>
+<input type="radio" name="q2" id="q2c" class="qc"><label for="q2c">2.500 mA</label>
+<input type="radio" name="q2" id="q2d" class="qw"><label for="q2d">25.000 mA</label>
+<div class="qfb qr">&#128161; 2,5 &times; 1.000 = 2.500 mA. Komma 3 Stellen nach rechts!</div>
+<div class="qfb qw2">&#128161; Nicht ganz! 2,5 A &times; 1.000 = <b>2.500 mA</b>.</div></div>
+
+<div class="quiz-q"><p><span class="num">3</span>Welche Spannung hat eine Haushaltssteckdose?</p>
+<input type="radio" name="q3" id="q3a" class="qw"><label for="q3a">12 V</label>
+<input type="radio" name="q3" id="q3b" class="qw"><label for="q3b">24 V</label>
+<input type="radio" name="q3" id="q3c" class="qc"><label for="q3c">230 V</label>
+<input type="radio" name="q3" id="q3d" class="qw"><label for="q3d">400 V</label>
+<div class="qfb qr">&#128161; In Deutschland liegen 230 Volt an der Steckdose an.</div>
+<div class="qfb qw2">&#128161; Die richtige Antwort ist <b>230 V</b>.</div></div>
+
+<div class="quiz-q"><p><span class="num">4</span>Was befindet sich im Atomkern?</p>
+<input type="radio" name="q4" id="q4a" class="qw"><label for="q4a">Elektronen</label>
+<input type="radio" name="q4" id="q4b" class="qc"><label for="q4b">Protonen und Neutronen</label>
+<input type="radio" name="q4" id="q4c" class="qw"><label for="q4c">Nur Protonen</label>
+<input type="radio" name="q4" id="q4d" class="qw"><label for="q4d">Nur Neutronen</label>
+<div class="qfb qr">&#128161; Im Kern sitzen Protonen (+) und Neutronen (neutral).</div>
+<div class="qfb qw2">&#128161; Im Kern sind <b>Protonen und Neutronen</b>. Elektronen sind in der Huelle!</div></div>
+
+<div class="quiz-q"><p><span class="num">5</span>In welche Richtung fliessen Elektronen?</p>
+<input type="radio" name="q5" id="q5a" class="qw"><label for="q5a">Von Plus nach Minus</label>
+<input type="radio" name="q5" id="q5b" class="qc"><label for="q5b">Von Minus nach Plus</label>
+<input type="radio" name="q5" id="q5c" class="qw"><label for="q5c">Gar nicht</label>
+<input type="radio" name="q5" id="q5d" class="qw"><label for="q5d">In beide Richtungen</label>
+<div class="qfb qr">&#128161; Elektronen fliessen von Minus nach Plus (entgegen der techn. Stromrichtung).</div>
+<div class="qfb qw2">&#128161; Elektronen fliessen von <b>Minus nach Plus</b>!</div></div>
+
+<div class="quiz-q"><p><span class="num">6</span>Welche Wirkung nutzt ein Buegeleisen?</p>
+<input type="radio" name="q6" id="q6a" class="qw"><label for="q6a">Lichtwirkung</label>
+<input type="radio" name="q6" id="q6b" class="qw"><label for="q6b">Magnetische Wirkung</label>
+<input type="radio" name="q6" id="q6c" class="qc"><label for="q6c">Waermewirkung</label>
+<input type="radio" name="q6" id="q6d" class="qw"><label for="q6d">Chemische Wirkung</label>
+<div class="qfb qr">&#128161; Buegeleisen wandelt elektrische Energie in Waerme um.</div>
+<div class="qfb qw2">&#128161; Ein Buegeleisen nutzt die <b>Waermewirkung</b>.</div></div>
+
+<div class="quiz-q"><p><span class="num">7</span>Ab welcher Stromstaerke wird es lebensgefaehrlich?</p>
+<input type="radio" name="q7" id="q7a" class="qw"><label for="q7a">1&ndash;5 mA</label>
+<input type="radio" name="q7" id="q7b" class="qw"><label for="q7b">10&ndash;20 mA</label>
+<input type="radio" name="q7" id="q7c" class="qc"><label for="q7c">40&ndash;50 mA</label>
+<input type="radio" name="q7" id="q7d" class="qw"><label for="q7d">500 mA</label>
+<div class="qfb qr">&#128161; Ab 40&ndash;50 mA: Herzrhythmusstoerungen moeglich!</div>
+<div class="qfb qw2">&#128161; Ab <b>40&ndash;50 mA</b> besteht Lebensgefahr.</div></div>
+
+<div class="quiz-q"><p><span class="num">8</span>ERSTER Schritt bei einem Stromunfall?</p>
+<input type="radio" name="q8" id="q8a" class="qw"><label for="q8a">Notruf 112</label>
+<input type="radio" name="q8" id="q8b" class="qw"><label for="q8b">Herzdruckmassage</label>
+<input type="radio" name="q8" id="q8c" class="qc"><label for="q8c">Stromquelle sichern</label>
+<input type="radio" name="q8" id="q8d" class="qw"><label for="q8d">Person anfassen</label>
+<div class="qfb qr">&#128161; Immer zuerst Strom aus! Sonst Gefahr fuer den Helfer.</div>
+<div class="qfb qw2">&#128161; Zuerst <b>Stromquelle sichern</b>! Dann 112, dann Erste Hilfe.</div></div>
+
+<div class="quiz-q"><p><span class="num">9</span>Reihenschaltung: eine Lampe kaputt &ndash; was passiert?</p>
+<input type="radio" name="q9" id="q9a" class="qw"><label for="q9a">Nur diese Lampe geht aus</label>
+<input type="radio" name="q9" id="q9b" class="qc"><label for="q9b">Alle Lampen gehen aus</label>
+<input type="radio" name="q9" id="q9c" class="qw"><label for="q9c">Die anderen leuchten heller</label>
+<input type="radio" name="q9" id="q9d" class="qw"><label for="q9d">Nichts passiert</label>
+<div class="qfb qr">&#128161; Reihenschaltung = ein Stromkreis. Einer aus, alle aus!</div>
+<div class="qfb qw2">&#128161; In der Reihenschaltung gehen <b>alle Lampen aus</b>.</div></div>
+
+<div class="quiz-q"><p><span class="num">10</span>ODER-Schaltung = welcher Schaltungstyp?</p>
+<input type="radio" name="q10" id="q10a" class="qw"><label for="q10a">Reihenschaltung</label>
+<input type="radio" name="q10" id="q10b" class="qc"><label for="q10b">Parallelschaltung</label>
+<input type="radio" name="q10" id="q10c" class="qw"><label for="q10c">Kurzschluss</label>
+<input type="radio" name="q10" id="q10d" class="qw"><label for="q10d">Wechselschaltung</label>
+<div class="qfb qr">&#128161; ODER = Parallelschaltung. Ein Schalter reicht!</div>
+<div class="qfb qw2">&#128161; ODER-Schaltung = <b>Parallelschaltung</b>.</div></div>
+
+<div class="quiz-q"><p><span class="num">11</span>Wie wird das Amperemeter eingebaut?</p>
+<input type="radio" name="q11" id="q11a" class="qw"><label for="q11a">Parallel</label>
+<input type="radio" name="q11" id="q11b" class="qc"><label for="q11b">In Reihe</label>
+<input type="radio" name="q11" id="q11c" class="qw"><label for="q11c">Gar nicht einbauen</label>
+<input type="radio" name="q11" id="q11d" class="qw"><label for="q11d">Neben die Batterie</label>
+<div class="qfb qr">&#128161; Amperemeter = in Reihe (der Strom muss durchfliessen).</div>
+<div class="qfb qw2">&#128161; Das Amperemeter wird <b>in Reihe</b> geschaltet.</div></div>
+
+<div class="quiz-q"><p><span class="num">12</span>Was misst das Voltmeter?</p>
+<input type="radio" name="q12" id="q12a" class="qw"><label for="q12a">Stromstaerke</label>
+<input type="radio" name="q12" id="q12b" class="qc"><label for="q12b">Spannung</label>
+<input type="radio" name="q12" id="q12c" class="qw"><label for="q12c">Widerstand</label>
+<input type="radio" name="q12" id="q12d" class="qw"><label for="q12d">Leistung</label>
+<div class="qfb qr">&#128161; Voltmeter = Spannung U in Volt, parallel geschaltet.</div>
+<div class="qfb qw2">&#128161; Das Voltmeter misst die <b>Spannung</b> (U in Volt).</div></div>
+
+<div class="quiz-q"><p><span class="num">13</span>Wodurch entsteht Spannung in einer Batterie?</p>
+<input type="radio" name="q13" id="q13a" class="qw"><label for="q13a">Durch Magnetismus</label>
+<input type="radio" name="q13" id="q13b" class="qc"><label for="q13b">Durch chemische Reaktion</label>
+<input type="radio" name="q13" id="q13c" class="qw"><label for="q13c">Durch Waerme</label>
+<input type="radio" name="q13" id="q13d" class="qw"><label for="q13d">Durch Licht</label>
+<div class="qfb qr">&#128161; In einer Batterie entsteht Spannung durch chemische Reaktion.</div>
+<div class="qfb qw2">&#128161; Batterie = <b>chemische Reaktion</b>.</div></div>
+
+<div class="quiz-q"><p><span class="num">14</span>Beispiel fuer eine UND-Schaltung?</p>
+<input type="radio" name="q14" id="q14a" class="qw"><label for="q14a">Zimmerbeleuchtung</label>
+<input type="radio" name="q14" id="q14b" class="qc"><label for="q14b">Rasenmaeher</label>
+<input type="radio" name="q14" id="q14c" class="qw"><label for="q14c">Fahrradlicht</label>
+<input type="radio" name="q14" id="q14d" class="qw"><label for="q14d">Taschenlampe</label>
+<div class="qfb qr">&#128161; Rasenmaeher = UND-Schaltung (alle Sicherheitsschalter muessen an sein).</div>
+<div class="qfb qw2">&#128161; Der <b>Rasenmaeher</b> ist ein UND-Schaltung-Beispiel.</div></div>
+
+<div class="quiz-q"><p><span class="num">15</span>3. Schritt beim Messgeraet anschliessen?</p>
+<input type="radio" name="q15" id="q15a" class="qw"><label for="q15a">Minus an Minus</label>
+<input type="radio" name="q15" id="q15b" class="qw"><label for="q15b">Plus an Plus</label>
+<input type="radio" name="q15" id="q15c" class="qc"><label for="q15c">Groessten Messbereich einstellen</label>
+<input type="radio" name="q15" id="q15d" class="qw"><label for="q15d">Ablesen</label>
+<div class="qfb qr">&#128161; Schritt 3 = groessten Messbereich einstellen. Nicht vergessen!</div>
+<div class="qfb qw2">&#128161; Der 3. Schritt: <b>Groessten Messbereich einstellen</b>!</div></div>
+
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== LUECKENTEXT ==================== -->
+<div class="sec sec-gap" id="gap">
+<div class="sec-title">&#9999;&#65039; Lueckentext &ndash; Ueberleg zuerst, dann aufdecken!</div>
+<div class="sec-body">
+<details><summary>Die Stromstaerke hat das Formelzeichen ___ und die Einheit ___.</summary><div class="ans">Die Stromstaerke hat das Formelzeichen <b>I</b> und die Einheit <b>Ampere (A)</b>.</div></details>
+<details><summary>Die Spannung hat das Formelzeichen ___ und die Einheit ___.</summary><div class="ans">Die Spannung hat das Formelzeichen <b>U</b> und die Einheit <b>Volt (V)</b>.</div></details>
+<details><summary>1 Ampere entspricht ___ Milliampere.</summary><div class="ans">1 Ampere entspricht <b>1.000</b> Milliampere.</div></details>
+<details><summary>Am Minuspol herrscht ein Elektronen___ und am Pluspol ein Elektronen___.</summary><div class="ans">Am Minuspol herrscht ein Elektronen<b>ueberschuss</b> und am Pluspol ein Elektronen<b>mangel</b>.</div></details>
+<details><summary>An der Haushaltssteckdose liegen ___ Volt an.</summary><div class="ans">An der Haushaltssteckdose liegen <b>230</b> Volt an.</div></details>
+<details><summary>Ein Buegeleisen nutzt die ___wirkung des Stroms.</summary><div class="ans">Ein Buegeleisen nutzt die <b>Waerme</b>wirkung des Stroms.</div></details>
+<details><summary>Ab ca. ___ mA wird Strom lebensgefaehrlich.</summary><div class="ans">Ab ca. <b>40&ndash;50</b> mA wird Strom lebensgefaehrlich.</div></details>
+<details><summary>Bei einem Stromunfall muss man zuerst die ___ sichern.</summary><div class="ans">Bei einem Stromunfall muss man zuerst die <b>Stromquelle</b> sichern.</div></details>
+<details><summary>Bei der Reihenschaltung sind die Umwandler ___ geschaltet.</summary><div class="ans">Bei der Reihenschaltung sind die Umwandler <b>hintereinander</b> geschaltet.</div></details>
+<details><summary>Die UND-Schaltung ist eine ___schaltung.</summary><div class="ans">Die UND-Schaltung ist eine <b>Reihen</b>schaltung.</div></details>
+<details><summary>Die ODER-Schaltung ist eine ___schaltung.</summary><div class="ans">Die ODER-Schaltung ist eine <b>Parallel</b>schaltung.</div></details>
+<details><summary>Das Amperemeter wird ___ in den Stromkreis geschaltet.</summary><div class="ans">Das Amperemeter wird <b>in Reihe</b> in den Stromkreis geschaltet.</div></details>
+<details><summary>Das Voltmeter wird ___ zum Verbraucher geschaltet.</summary><div class="ans">Das Voltmeter wird <b>parallel</b> zum Verbraucher geschaltet.</div></details>
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== ZUORDNUNG (interaktives Matching) ==================== -->
+<div class="sec sec-match" id="match">
+<div class="sec-title">&#128279; Zuordnung &ndash; Tippe links, dann ordne rechts zu!</div>
+<div class="sec-body">
+<div id="match-game" style="padding:12px 16px"></div>
+<div id="match-score" style="text-align:center;font-size:.9rem;color:#666;padding:12px">Richtig: <b id="match-right">0</b> / <b id="match-total">0</b></div>
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== SCHALTUNGS-SIMULATOR ==================== -->
+<div class="sec sec-sim" id="sim">
+<div class="sec-title">&#128268; Schaltungs-Simulator &ndash; Tippe die Schalter!</div>
+<div class="sec-body">
+<div class="sim-wrap">
+
+<div class="sim-cat-row">
+  <button class="sim-cat sim-cat-und active" onclick="setSimCat('und')">Reihenschaltung (UND)</button>
+  <button class="sim-cat sim-cat-oder" onclick="setSimCat('oder')">Parallelschaltung (ODER)</button>
+</div>
+<div class="sim-tabs" id="sim-tabs"></div>
+
+<div class="sim-desc" id="sim-desc">
+  <b>Reihenschaltung:</b> Beide Schalter muessen geschlossen sein, damit die Lampe leuchtet.<br>
+  Beispiel: Rasenmaeher (Sicherheitsbuegel + Startknopf)
+</div>
+
+<div class="sim-svg-wrap">
+  <div id="sim-svg"></div>
+</div>
+
+<div class="sim-hint">Tippe auf einen Schalter im Schaltplan!</div>
+
+<div class="sim-status off" id="sim-status">Lampe ist AUS &ndash; Stromkreis offen</div>
+
+<div id="sim-table"></div>
+
+<div class="sim-info" id="sim-info">
+  <b>UND-Schaltung (Reihenschaltung):</b><br>
+  Schalter 1 <b>UND</b> Schalter 2 muessen geschlossen sein.<br>
+  Nur wenn <b>alle</b> Schalter an sind, fliesst Strom.
+</div>
+
+</div>
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== MESSGERAET ABLESEN ==================== -->
+<div class="sec sec-meter" id="meter">
+<div class="sec-title">&#128207; Messgeraet ablesen &ndash; Lies den Wert ab!</div>
+<div class="sec-body">
+<div class="meter-wrap">
+
+<div style="background:linear-gradient(90deg,#fff9e6,#fff3cd);border-radius:14px;padding:16px 18px;margin-bottom:18px;font-size:.88rem;line-height:1.75;color:#856404;border-left:4px solid #f39c12">
+  <b style="font-size:1rem;color:#7c5c04">So liest du das Messgeraet ab:</b><br><br>
+  Die Skala zeigt immer <b>0 bis 10</b> &ndash; aber was die Zahlen bedeuten, haengt vom <b>Messbereich</b> ab.<br><br>
+  <b>Beispiel:</b> Der Zeiger steht auf <b>6</b> und der Messbereich ist <b>100 mA</b>.<br>
+  Dann rechnest du: <b>6 &divide; 10 &times; 100 = 60 mA</b><br><br>
+  <b>Die Formel:</b><br>
+  <span style="display:inline-block;background:#fff;padding:6px 14px;border-radius:10px;font-size:1rem;font-weight:700;color:#1F4E79;margin:4px 0;border:2px solid #f5d89a">
+    Messwert = Skalenwert &divide; 10 &times; Messbereich
+  </span><br><br>
+  <b>Noch ein Beispiel:</b> Zeiger auf <b>4,5</b>, Messbereich <b>30 mA</b><br>
+  &rarr; 4,5 &divide; 10 &times; 30 = <b>13,5 mA</b><br><br>
+  <i>Tipp: Ueberlege zuerst, was ein Teilstrich wert ist!</i>
+</div>
+
+<div class="meter-task">
+  <div id="meter-svg"></div>
+  <div class="meter-range" id="meter-range"></div>
+  <div class="meter-hint">Lies den Zeiger ab und berechne den Wert fuer den angegebenen Messbereich!</div>
+  <div class="meter-input-row">
+    <input type="number" class="meter-input" id="meter-answer" placeholder="?" step="any" inputmode="decimal">
+    <span class="meter-unit-label" id="meter-unit-label">mA</span>
+  </div>
+  <button class="meter-btn" onclick="checkMeter()">Pruefen!</button>
+  <button class="meter-next show" id="meter-next" onclick="newMeterTask()">Naechste Aufgabe</button>
+  <div class="meter-fb" id="meter-fb"></div>
+</div>
+
+<div class="meter-score">Richtig: <b id="meter-right">0</b> / <b id="meter-total">0</b></div>
+
+</div>
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== EINHEITEN-UMRECHNER ==================== -->
+<div class="sec sec-calc" id="calc">
+<div class="sec-title">&#128290; Einheiten-Umrechner &ndash; Rechne selbst!</div>
+<div class="sec-body">
+<div class="calc-wrap">
+
+<div style="background:linear-gradient(90deg,#fff9e6,#fff3cd);border-radius:14px;padding:16px 18px;margin-bottom:18px;font-size:.88rem;line-height:1.75;color:#856404;border-left:4px solid #f39c12">
+  <b style="font-size:1rem;color:#7c5c04">So rechnest du Einheiten um:</b><br><br>
+  Der Trick: <b>Komma verschieben!</b> Zwischen mA und A liegen immer <b>3 Stellen</b> (Faktor 1.000).<br><br>
+  <b>mA &rarr; A</b> (kleine Einheit &rarr; grosse): Komma <b>3 Stellen nach links</b><br>
+  <span style="display:inline-block;background:#fff;padding:4px 12px;border-radius:8px;margin:4px 0;border:2px solid #f5d89a">
+    500 mA &rarr; 0<b>,</b>500 A = <b>0,5 A</b>
+  </span><br><br>
+  <b>A &rarr; mA</b> (grosse Einheit &rarr; kleine): Komma <b>3 Stellen nach rechts</b><br>
+  <span style="display:inline-block;background:#fff;padding:4px 12px;border-radius:8px;margin:4px 0;border:2px solid #f5d89a">
+    1,5 A &rarr; 1500<b>,</b>0 mA = <b>1.500 mA</b>
+  </span><br><br>
+  <b>Genauso bei Volt:</b><br>
+  1 kV = 1.000 V &nbsp;|&nbsp; 1 V = 1.000 mV<br><br>
+  <i>Merke: milli (m) = tausendstel &rarr; immer Faktor 1.000 &rarr; immer 3 Stellen!</i>
+</div>
+
+<div class="calc-task">
+  <div class="question" id="calc-question">Rechne <span class="val" id="calc-val">500 mA</span> in <span id="calc-target-unit">A</span> um!</div>
+  <div class="calc-input-row">
+    <input type="number" class="calc-input" id="calc-answer" placeholder="?" step="any" inputmode="decimal">
+    <span class="calc-unit" id="calc-display-unit">A</span>
+  </div>
+  <button class="calc-btn" onclick="checkCalc()">Pruefen!</button>
+  <button class="calc-next" id="calc-next" onclick="newCalcTask()">Naechste Aufgabe</button>
+  <div class="calc-fb" id="calc-fb"></div>
+</div>
+<div class="calc-score">Richtig: <b id="calc-right">0</b> / <b id="calc-total">0</b></div>
+</div>
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== SORTIER-AUFGABE ==================== -->
+<div class="sec sec-sort" id="sort">
+<div class="sec-title">&#128203; Sortieren &ndash; Tippe in der richtigen Reihenfolge!</div>
+<div class="sec-body">
+<div class="sort-wrap">
+<div class="sort-desc" id="sort-desc"></div>
+<div class="sort-items" id="sort-items"></div>
+<button class="sort-check-btn" id="sort-check" onclick="checkSort()">Reihenfolge pruefen!</button>
+<div class="sort-fb" id="sort-fb"></div>
+<button class="sort-reset" id="sort-reset" onclick="resetSort()">Nochmal versuchen</button>
+<button class="sort-reset" id="sort-next-challenge" onclick="nextSortChallenge()" style="display:none;background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff">Naechste Aufgabe</button>
+</div>
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== STROMKREIS-CHECK ==================== -->
+<div class="sec sec-circuit" id="circ">
+<div class="sec-title">&#128161; Stromkreis-Check &ndash; Leuchtet die Lampe?</div>
+<div class="sec-body">
+<div class="circ-wrap">
+<div class="circ-scenario" id="circ-scenario"></div>
+<div class="circ-btns" id="circ-btns">
+  <button class="circ-btn" onclick="answerCircuit(true)">&#128161; Ja, leuchtet!</button>
+  <button class="circ-btn" onclick="answerCircuit(false)">&#10060; Nein, leuchtet nicht!</button>
+</div>
+<div class="circ-fb" id="circ-fb"></div>
+<div class="circ-nav-row">
+  <button class="circ-nav-btn" onclick="nextCircuit()">Naechste Aufgabe</button>
+</div>
+<div class="circ-counter" id="circ-counter">Aufgabe 1 von 8</div>
+</div>
+</div></div>
+
+<div class="nav"><a href="#fc">&#11014; Nach oben</a></div>
+
+<!-- ==================== SCHNELL-CHECK ==================== -->
+<div class="check">
+<h3>&#9889; Schnell-Check &ndash; Die wichtigsten Fakten</h3>
+<span class="fact">Stromstaerke: <b>I</b> in <b>Ampere</b></span>
+<span class="fact">Spannung: <b>U</b> in <b>Volt</b></span>
+<span class="fact">Steckdose: <b>230 V</b></span>
+<span class="fact">Gefaehrlich ab: <b>40&ndash;50 mA</b></span>
+<span class="fact">1 A = <b>1.000 mA</b></span>
+<span class="fact">Amperemeter: <b>in Reihe</b></span>
+<span class="fact">Voltmeter: <b>parallel</b></span>
+<span class="fact">Reihe = <b>UND</b></span>
+<span class="fact">Parallel = <b>ODER</b></span>
+<span class="fact">Erste Hilfe: <b>Strom aus &#10132; Trennen &#10132; 112 &#10132; Herzdruck</b></span>
+</div>
+
+<div class="nav" style="margin-bottom:40px"><a href="#fc">&#11014; Ganz nach oben</a></div>
+
+</div>
+
+<script>
+// ============================================================
+//  iOS-COMPATIBLE SVG RENDERER (DOMParser)
+// ============================================================
+function renderSvg(container, svgString, addSwitchHandlers) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(svgString, 'image/svg+xml');
+  while (container.firstChild) container.removeChild(container.firstChild);
+  var node = document.importNode(doc.documentElement, true);
+  node.style.maxWidth = '100%';
+  node.style.height = 'auto';
+  container.appendChild(node);
+  if (addSwitchHandlers) {
+    var rects = node.querySelectorAll('[data-sw]');
+    for (var i = 0; i < rects.length; i++) {
+      (function(r) {
+        var fn = function(e) { e.preventDefault(); toggleSwitch(parseInt(r.getAttribute('data-sw'))); };
+        r.addEventListener('click', fn);
+        r.addEventListener('touchend', fn);
+      })(rects[i]);
+    }
+  }
+}
+
+// ============================================================
+//  SVG HELPER FUNCTIONS - Schaltzeichen
+// ============================================================
+
+function svgWire(x1,y1,x2,y2,color){
+  return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(color||'#333')+'" stroke-width="2.5" stroke-linecap="round"/>';
+}
+
+function svgBattery(cx,cy){
+  // Vertical battery centered at (cx,cy)
+  // Long line = + (top), short line = - (bottom)
+  var s = '';
+  s += '<line x1="'+(cx-16)+'" y1="'+(cy-6)+'" x2="'+(cx+16)+'" y2="'+(cy-6)+'" stroke="#333" stroke-width="2.5"/>';  // long line +
+  s += '<line x1="'+(cx-9)+'" y1="'+(cy+6)+'" x2="'+(cx+9)+'" y2="'+(cy+6)+'" stroke="#333" stroke-width="4"/>';   // short line -
+  s += '<text x="'+(cx+20)+'" y="'+(cy-2)+'" font-size="13" font-weight="700" fill="#d63031" font-family="sans-serif">+</text>';
+  s += '<text x="'+(cx+14)+'" y="'+(cy+14)+'" font-size="15" font-weight="700" fill="#0984e3" font-family="sans-serif">\u2212</text>';
+  return s;
+}
+
+function svgLamp(cx,cy,lit){
+  var fill = lit ? '#fff9c4' : 'none';
+  var stroke = lit ? '#f9a825' : '#333';
+  var glow = lit ? '<circle cx="'+cx+'" cy="'+cy+'" r="22" fill="rgba(255,235,59,0.2)" stroke="none"/>' : '';
+  var s = glow;
+  s += '<circle cx="'+cx+'" cy="'+cy+'" r="16" fill="'+fill+'" stroke="'+stroke+'" stroke-width="2.5"/>';
+  s += '<line x1="'+(cx-11)+'" y1="'+(cy-11)+'" x2="'+(cx+11)+'" y2="'+(cy+11)+'" stroke="'+stroke+'" stroke-width="2"/>';
+  s += '<line x1="'+(cx+11)+'" y1="'+(cy-11)+'" x2="'+(cx-11)+'" y2="'+(cy+11)+'" stroke="'+stroke+'" stroke-width="2"/>';
+  return s;
+}
+
+function svgSwitch(x,y,closed,label,id){
+  // Horizontal switch from (x,y) to (x+50,y)
+  // Left dot, right dot, lever
+  var s = '';
+  s += '<circle cx="'+x+'" cy="'+y+'" r="4" fill="#333"/>';
+  s += '<circle cx="'+(x+50)+'" cy="'+y+'" r="4" fill="#333"/>';
+  if(closed){
+    s += '<line x1="'+x+'" y1="'+y+'" x2="'+(x+50)+'" y2="'+y+'" stroke="#00b894" stroke-width="3"/>';
+  } else {
+    s += '<line x1="'+x+'" y1="'+y+'" x2="'+(x+42)+'" y2="'+(y-22)+'" stroke="#e17055" stroke-width="3"/>';
+  }
+  // Clickable area (data-sw for event delegation, works on iOS)
+  s += '<rect x="'+(x-8)+'" y="'+(y-30)+'" width="66" height="45" fill="transparent" style="cursor:pointer" data-sw="'+id+'"/>';
+  // Label
+  s += '<text x="'+(x+25)+'" y="'+(y+18)+'" text-anchor="middle" font-size="11" font-weight="600" fill="#555" font-family="sans-serif">'+label+'</text>';
+  return s;
+}
+
+// ============================================================
+//  SCHALTUNGS-SIMULATOR (8 Varianten)
+// ============================================================
+var simCat = 'und'; // 'und' or 'oder'
+var simMode = 'und2';
+var sw = [false,false,false]; // sw[0]=S1, sw[1]=S2, sw[2]=S3
+
+var simModes = {
+  // UND-Kategorie (Reihenschaltungen)
+  einfach: {cat:'und', label:'Einfach', desc:'<b>Einfacher Stromkreis:</b> Ein Schalter, eine Lampe. Schalter zu = Lampe an.<br>Beispiel: Taschenlampe',
+    info:'<b>Einfacher Stromkreis:</b><br>Nur <b>ein</b> Schalter. Zu = Strom fliesst. Offen = kein Strom.',
+    switches:1, lit:function(){return sw[0];} },
+  und2: {cat:'und', label:'UND (2)', desc:'<b>UND-Schaltung (2 Schalter):</b> Beide Schalter muessen geschlossen sein.<br>Beispiel: Rasenmaeher (Sicherheitsbuegel + Startknopf)',
+    info:'<b>UND-Schaltung (Reihenschaltung):</b><br>Schalter 1 <b>UND</b> Schalter 2 muessen geschlossen sein.<br>Nur wenn <b>alle</b> Schalter an sind, fliesst Strom.',
+    switches:2, lit:function(){return sw[0]&&sw[1];} },
+  und3: {cat:'und', label:'UND (3)', desc:'<b>UND-Schaltung (3 Schalter):</b> ALLE drei Schalter muessen geschlossen sein.<br>Beispiel: Waschmaschine (Tuer zu + Programm + Start)',
+    info:'<b>UND-Schaltung mit 3 Schaltern:</b><br>S\u2081 <b>UND</b> S\u2082 <b>UND</b> S\u2083 muessen alle geschlossen sein.<br>Einer offen = kein Strom!',
+    switches:3, lit:function(){return sw[0]&&sw[1]&&sw[2];} },
+  reihe2l: {cat:'und', label:'2 Lampen Reihe', desc:'<b>2 Lampen in Reihe:</b> Beide Lampen hintereinander. Eine kaputt = beide aus!<br>Beispiel: Alte Lichterkette',
+    info:'<b>Reihenschaltung mit 2 Lampen:</b><br>Beide Lampen haengen hintereinander im selben Stromkreis.<br>Schalter steuert beide gleichzeitig.',
+    switches:1, lamps:2, lit:function(){return sw[0];} },
+  // ODER-Kategorie (Parallelschaltungen)
+  oder2: {cat:'oder', label:'ODER (2)', desc:'<b>ODER-Schaltung (2 Schalter):</b> Es reicht, wenn EIN Schalter geschlossen ist.<br>Beispiel: Zimmerbeleuchtung',
+    info:'<b>ODER-Schaltung (Parallelschaltung):</b><br>S\u2081 <b>ODER</b> S\u2082 muss geschlossen sein.<br>Es reicht, wenn <b>ein</b> Schalter an ist.',
+    switches:2, lit:function(){return sw[0]||sw[1];} },
+  oder3: {cat:'oder', label:'ODER (3)', desc:'<b>ODER-Schaltung (3 Schalter):</b> Einer von drei Schaltern reicht!<br>Beispiel: Treppenhausbeleuchtung (3 Stockwerke)',
+    info:'<b>ODER-Schaltung mit 3 Schaltern:</b><br>S\u2081 <b>ODER</b> S\u2082 <b>ODER</b> S\u2083 &ndash; einer reicht!<br>Mindestens ein Schalter muss geschlossen sein.',
+    switches:3, lit:function(){return sw[0]||sw[1]||sw[2];} },
+  par2l: {cat:'oder', label:'2 Lampen parallel', desc:'<b>2 Lampen parallel:</b> Jede Lampe hat eigenen Weg. Eine kaputt = andere leuchtet weiter!<br>Beispiel: Zimmerbeleuchtung',
+    info:'<b>Parallelschaltung mit 2 Lampen:</b><br>Jede Lampe hat ihren eigenen Stromkreis.<br>Eine kaputt? Die andere leuchtet trotzdem!',
+    switches:1, lamps:2, lit:function(){return sw[0];} },
+  kombi: {cat:'oder', label:'Kombi UND+ODER', desc:'<b>Kombinierte Schaltung:</b> S\u2081 in Reihe, dann S\u2082 und S\u2083 parallel.<br>S\u2081 muss immer an sein + mindestens S\u2082 oder S\u2083.',
+    info:'<b>Kombination UND + ODER:</b><br>S\u2081 ist in <b>Reihe</b> (muss immer an sein).<br>S\u2082 und S\u2083 sind <b>parallel</b> (einer reicht).<br>Also: S\u2081 UND (S\u2082 ODER S\u2083).',
+    switches:3, lit:function(){return sw[0]&&(sw[1]||sw[2]);} }
+};
+
+function setSimCat(cat){
+  simCat = cat;
+  document.querySelector('.sim-cat-und').classList.toggle('active',cat==='und');
+  document.querySelector('.sim-cat-oder').classList.toggle('active',cat==='oder');
+  // Show first mode of this category
+  var firstMode = null;
+  for(var k in simModes){ if(simModes[k].cat===cat){ firstMode=k; break; } }
+  buildSimTabs();
+  setSimMode(firstMode);
+}
+
+function buildSimTabs(){
+  var h = '';
+  for(var k in simModes){
+    var m = simModes[k];
+    if(m.cat !== simCat) continue;
+    var cls = 'sim-tab cat-'+m.cat;
+    if(k===simMode) cls += ' active';
+    h += '<button class="'+cls+'" onclick="setSimMode(\''+k+'\')">'+m.label+'</button>';
+  }
+  document.getElementById('sim-tabs').innerHTML = h;
+}
+
+function setSimMode(mode){
+  simMode = mode;
+  sw = [false,false,false];
+  buildSimTabs();
+  var m = simModes[mode];
+  document.getElementById('sim-desc').innerHTML = m.desc;
+  document.getElementById('sim-info').innerHTML = m.info;
+  drawSim();
+}
+
+function toggleSwitch(n){
+  sw[n-1] = !sw[n-1];
+  drawSim();
+}
+
+function drawSim(){
+  var m = simModes[simMode];
+  var lit = m.lit();
+  var wc = lit ? '#0984e3' : '#999';
+  var B = '#0984e3', G = '#999';
+  var s = '';
+
+  if(simMode==='einfach'){
+    s += '<svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">';
+    s += svgWire(40,35,40,75,wc); s += svgBattery(40,85); s += svgWire(40,95,40,140,wc);
+    s += svgWire(40,35,130,35,wc);
+    s += svgSwitch(130,35,sw[0],'S\u2081',1);
+    s += svgWire(180,35,300,35,wc);
+    s += svgWire(300,35,300,69,wc); s += svgLamp(300,85,lit); s += svgWire(300,101,300,140,wc);
+    s += svgWire(300,140,40,140,wc);
+    s += '</svg>';
+
+  } else if(simMode==='und2'){
+    s += '<svg viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">';
+    s += svgWire(40,35,40,75,wc); s += svgBattery(40,85); s += svgWire(40,95,40,140,wc);
+    s += svgWire(40,35,100,35,wc);
+    s += svgSwitch(100,35,sw[0],'S\u2081',1);
+    s += svgWire(150,35,210,35,wc);
+    s += svgSwitch(210,35,sw[1],'S\u2082',2);
+    s += svgWire(260,35,340,35,wc);
+    s += svgWire(340,35,340,69,wc); s += svgLamp(340,85,lit); s += svgWire(340,101,340,140,wc);
+    s += svgWire(340,140,40,140,wc);
+    s += '</svg>';
+
+  } else if(simMode==='und3'){
+    s += '<svg viewBox="0 0 440 170" xmlns="http://www.w3.org/2000/svg">';
+    s += svgWire(30,35,30,75,wc); s += svgBattery(30,85); s += svgWire(30,95,30,140,wc);
+    s += svgWire(30,35,80,35,wc);
+    s += svgSwitch(80,35,sw[0],'S\u2081',1);
+    s += svgWire(130,35,170,35,wc);
+    s += svgSwitch(170,35,sw[1],'S\u2082',2);
+    s += svgWire(220,35,260,35,wc);
+    s += svgSwitch(260,35,sw[2],'S\u2083',3);
+    s += svgWire(310,35,400,35,wc);
+    s += svgWire(400,35,400,69,wc); s += svgLamp(400,85,lit); s += svgWire(400,101,400,140,wc);
+    s += svgWire(400,140,30,140,wc);
+    s += '</svg>';
+
+  } else if(simMode==='reihe2l'){
+    s += '<svg viewBox="0 0 420 170" xmlns="http://www.w3.org/2000/svg">';
+    s += svgWire(30,35,30,75,wc); s += svgBattery(30,85); s += svgWire(30,95,30,140,wc);
+    s += svgWire(30,35,100,35,wc);
+    s += svgSwitch(100,35,sw[0],'S\u2081',1);
+    s += svgWire(150,35,390,35,wc);
+    s += svgWire(390,35,390,55,wc);
+    s += svgLamp(390,70,lit);
+    s += '<text x="390" y="95" text-anchor="middle" font-size="10" fill="#555" font-family="sans-serif">L\u2081</text>';
+    s += svgWire(390,86,390,104,wc);
+    s += svgLamp(390,120,lit);
+    s += '<text x="390" y="145" text-anchor="middle" font-size="10" fill="#555" font-family="sans-serif">L\u2082</text>';
+    s += svgWire(390,136,390,155,wc);
+    s += svgWire(390,155,30,155,wc);
+    s += svgWire(30,140,30,155,wc);
+    s += '</svg>';
+
+  } else if(simMode==='oder2'){
+    s += '<svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">';
+    var wc1=sw[0]?B:G, wc2=sw[1]?B:G;
+    s += svgWire(40,40,40,85,wc); s += svgBattery(40,95); s += svgWire(40,105,40,160,wc);
+    s += svgWire(40,40,85,40,wc);
+    s += svgWire(85,40,85,130,wc);
+    s += svgWire(85,55,120,55,wc1); s += svgSwitch(120,55,sw[0],'S\u2081',1); s += svgWire(170,55,260,55,wc1);
+    s += svgWire(85,115,120,115,wc2); s += svgSwitch(120,115,sw[1],'S\u2082',2); s += svgWire(170,115,260,115,wc2);
+    s += svgWire(260,55,260,115,wc);
+    s += svgWire(260,85,300,85,wc);
+    s += svgWire(340,40,340,69,wc); s += svgLamp(340,85,lit); s += svgWire(340,101,340,160,wc);
+    s += svgWire(260,55,340,40,wc);
+    s += svgWire(340,160,40,160,wc);
+    s += '</svg>';
+
+  } else if(simMode==='oder3'){
+    s += '<svg viewBox="0 0 380 240" xmlns="http://www.w3.org/2000/svg">';
+    var wc1=sw[0]?B:G, wc2=sw[1]?B:G, wc3=sw[2]?B:G;
+    s += svgWire(40,30,40,95,wc); s += svgBattery(40,105); s += svgWire(40,115,40,200,wc);
+    s += svgWire(40,30,85,30,wc);
+    s += svgWire(85,30,85,175,wc);
+    s += svgWire(85,45,120,45,wc1); s += svgSwitch(120,45,sw[0],'S\u2081',1); s += svgWire(170,45,260,45,wc1);
+    s += svgWire(85,105,120,105,wc2); s += svgSwitch(120,105,sw[1],'S\u2082',2); s += svgWire(170,105,260,105,wc2);
+    s += svgWire(85,165,120,165,wc3); s += svgSwitch(120,165,sw[2],'S\u2083',3); s += svgWire(170,165,260,165,wc3);
+    s += svgWire(260,45,260,165,wc);
+    s += svgWire(260,105,300,105,wc);
+    s += svgWire(340,30,340,89,wc); s += svgLamp(340,105,lit); s += svgWire(340,121,340,200,wc);
+    s += svgWire(260,45,340,30,wc);
+    s += svgWire(340,200,40,200,wc);
+    s += '</svg>';
+
+  } else if(simMode==='par2l'){
+    s += '<svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">';
+    s += svgWire(40,40,40,85,wc); s += svgBattery(40,95); s += svgWire(40,105,40,160,wc);
+    s += svgWire(40,40,130,40,wc);
+    s += svgSwitch(130,40,sw[0],'S\u2081',1);
+    s += svgWire(180,40,250,40,wc);
+    s += svgWire(250,40,250,130,wc);
+    s += svgWire(250,55,300,55,wc);
+    s += svgWire(340,40,340,55,wc);
+    s += svgWire(340,55,316,55,wc);
+    s += svgLamp(300,55,lit);
+    s += '<text x="300" y="78" text-anchor="middle" font-size="10" fill="#555" font-family="sans-serif">L\u2081</text>';
+    s += svgWire(300,71,300,85,wc);
+    s += svgWire(250,120,284,120,wc);
+    s += svgLamp(300,120,lit);
+    s += '<text x="300" y="143" text-anchor="middle" font-size="10" fill="#555" font-family="sans-serif">L\u2082</text>';
+    s += svgWire(316,120,340,120,wc);
+    s += svgWire(340,55,340,120,wc);
+    s += svgWire(340,120,340,160,wc);
+    s += svgWire(340,160,40,160,wc);
+    s += '</svg>';
+
+  } else if(simMode==='kombi'){
+    s += '<svg viewBox="0 0 420 210" xmlns="http://www.w3.org/2000/svg">';
+    var parLit = sw[1]||sw[2];
+    var wc1 = sw[0]?B:G;
+    var wcP = (sw[0]&&parLit)?B:G;
+    var wc2p = (sw[0]&&sw[1])?B:G;
+    var wc3p = (sw[0]&&sw[2])?B:G;
+    s += svgWire(30,40,30,85,wc); s += svgBattery(30,95); s += svgWire(30,105,30,170,wc);
+    s += svgWire(30,40,80,40,wc);
+    s += svgSwitch(80,40,sw[0],'S\u2081',1);
+    s += svgWire(130,40,160,40,wc1);
+    s += svgWire(160,40,160,140,wc1);
+    s += svgWire(160,55,195,55,wc2p); s += svgSwitch(195,55,sw[1],'S\u2082',2); s += svgWire(245,55,300,55,wc2p);
+    s += svgWire(160,125,195,125,wc3p); s += svgSwitch(195,125,sw[2],'S\u2083',3); s += svgWire(245,125,300,125,wc3p);
+    s += svgWire(300,55,300,125,wcP);
+    s += svgWire(300,90,340,90,wcP);
+    s += svgWire(380,40,380,74,wc); s += svgLamp(380,90,lit); s += svgWire(380,106,380,170,wc);
+    s += svgWire(300,55,380,40,wcP);
+    s += svgWire(380,170,30,170,wc);
+    s += '</svg>';
+  }
+
+  // Use DOMParser for iOS-compatible SVG rendering
+  renderSvg(document.getElementById('sim-svg'), s, true);
+
+  // Status
+  var status = document.getElementById('sim-status');
+  if(lit){
+    status.className='sim-status on';
+    status.textContent='Lampe LEUCHTET! Stromkreis geschlossen!';
+  } else {
+    status.className='sim-status off';
+    var numSw = m.switches;
+    var open = [];
+    if(numSw>=1 && !sw[0]) open.push('S\u2081');
+    if(numSw>=2 && !sw[1]) open.push('S\u2082');
+    if(numSw>=3 && !sw[2]) open.push('S\u2083');
+    if(open.length===0) status.textContent='Lampe ist AUS';
+    else if(open.length===1) status.textContent='Lampe ist AUS \u2013 '+open[0]+' ist noch offen';
+    else status.textContent='Lampe ist AUS \u2013 '+open.join(' und ')+' sind offen';
+  }
+
+  drawTruthTable();
+}
+
+function drawTruthTable(){
+  var m = simModes[simMode];
+  var n = m.switches;
+  var h = '<table class="truth-table"><tr>';
+
+  // Headers
+  for(var i=1;i<=n;i++) h += '<th>S'+'\u2080\u2081\u2082\u2083'[i]+'</th>';
+  if(m.lamps===2) h += '<th>L\u2081</th><th>L\u2082</th>';
+  else h += '<th>Lampe</th>';
+  h += '</tr>';
+
+  // Rows: iterate all switch combinations
+  var combos = Math.pow(2,n);
+  for(var c=0;c<combos;c++){
+    var bits = [];
+    for(var i=0;i<n;i++) bits[i] = (c >> (n-1-i)) & 1;
+
+    // Check if this row matches current state
+    var isActive = true;
+    for(var i=0;i<n;i++){
+      if(bits[i] !== (sw[i]?1:0)) isActive = false;
+    }
+
+    // Calculate lamp state for this combo
+    var origSw = sw.slice();
+    for(var i=0;i<n;i++) sw[i] = !!bits[i];
+    var lampOn = m.lit();
+    sw = origSw; // restore
+
+    h += '<tr'+(isActive?' class="active-row"':'')+'>';
+    for(var i=0;i<n;i++){
+      h += '<td class="'+(bits[i]?'on':'off')+'">'+(bits[i]?'1 (zu)':'0 (offen)')+'</td>';
+    }
+    if(m.lamps===2){
+      h += '<td class="'+(lampOn?'on':'off')+'">'+(lampOn?'1':'0')+'</td>';
+      h += '<td class="'+(lampOn?'on':'off')+'">'+(lampOn?'1':'0')+'</td>';
+    } else {
+      h += '<td class="'+(lampOn?'on':'off')+'">'+(lampOn?'1 (an)':'0 (aus)')+'</td>';
+    }
+    h += '</tr>';
+  }
+  h += '</table>';
+  document.getElementById('sim-table').innerHTML = h;
+}
+
+// ============================================================
+//  MESSGERAET ABLESEN
+// ============================================================
+var meterRight=0, meterTotal=0;
+
+// Tasks: scaleReading is where needle points on 0-10 scale, range determines actual value
+var meterTasks = [
+  {scaleReading:6, range:100, unit:'mA'},    // 60 mA
+  {scaleReading:5, range:30, unit:'mA'},     // 15 mA
+  {scaleReading:7, range:10, unit:'mA'},     // 7 mA
+  {scaleReading:3, range:100, unit:'mA'},    // 30 mA
+  {scaleReading:8, range:3, unit:'A'},       // 2.4 A
+  {scaleReading:4.5, range:30, unit:'mA'},   // 13.5 mA
+  {scaleReading:2, range:100, unit:'mA'},    // 20 mA
+  {scaleReading:9, range:10, unit:'mA'},     // 9 mA
+  {scaleReading:3.5, range:100, unit:'mA'},  // 35 mA
+  {scaleReading:6, range:3, unit:'A'},       // 1.8 A
+  {scaleReading:7.5, range:30, unit:'mA'},   // 22.5 mA
+  {scaleReading:1, range:100, unit:'mA'},    // 10 mA
+];
+var meterShuffled=[], meterIndex=0;
+
+function shuffleMeter(){
+  meterShuffled = meterTasks.slice();
+  for(var i=meterShuffled.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=meterShuffled[i]; meterShuffled[i]=meterShuffled[j]; meterShuffled[j]=t;
+  }
+  meterIndex=0;
+}
+
+function drawMeterSVG(scaleReading){
+  var cx=160, cy=155, r=120;
+  var s = '<svg viewBox="0 0 320 185" xmlns="http://www.w3.org/2000/svg">';
+
+  // Background arc
+  s += '<path d="M '+(cx-r)+' '+cy+' A '+r+' '+r+' 0 0 1 '+(cx+r)+' '+cy+'" fill="none" stroke="#e0e0e0" stroke-width="2"/>';
+
+  // Tick marks and numbers (0-10)
+  for(var i=0;i<=50;i++){
+    var angle = Math.PI - (i/50)*Math.PI;
+    var x1 = cx + r * Math.cos(angle);
+    var y1 = cy - r * Math.sin(angle);
+    var isMajor = (i%5===0);
+    var len = isMajor ? 18 : 8;
+    var x2 = cx + (r-len) * Math.cos(angle);
+    var y2 = cy - (r-len) * Math.sin(angle);
+    var lw = isMajor ? 2 : 1;
+    var col = isMajor ? '#333' : '#999';
+    s += '<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="'+col+'" stroke-width="'+lw+'"/>';
+
+    if(isMajor){
+      var num = i/5;
+      var tx = cx + (r-28) * Math.cos(angle);
+      var ty = cy - (r-28) * Math.sin(angle) + 5;
+      s += '<text x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" text-anchor="middle" font-size="14" font-weight="700" fill="#333" font-family="sans-serif">'+num+'</text>';
+    }
+  }
+
+  // Needle
+  var needleAngle = Math.PI - (scaleReading/10)*Math.PI;
+  var nx = cx + (r-35) * Math.cos(needleAngle);
+  var ny = cy - (r-35) * Math.sin(needleAngle);
+  s += '<line x1="'+cx+'" y1="'+cy+'" x2="'+nx.toFixed(1)+'" y2="'+ny.toFixed(1)+'" stroke="#d63031" stroke-width="2.5" stroke-linecap="round"/>';
+  s += '<circle cx="'+cx+'" cy="'+cy+'" r="5" fill="#333"/>';
+
+  // Outer border arc + base line
+  s += '<path d="M '+(cx-r-5)+' '+(cy+2)+' A '+(r+5)+' '+(r+5)+' 0 0 1 '+(cx+r+5)+' '+(cy+2)+'" fill="none" stroke="#333" stroke-width="2.5"/>';
+  s += '<line x1="'+(cx-r-5)+'" y1="'+(cy+2)+'" x2="'+(cx+r+5)+'" y2="'+(cy+2)+'" stroke="#333" stroke-width="2.5"/>';
+  s += '</svg>';
+  return s;
+}
+
+function showMeterTask(){
+  if(meterIndex>=meterShuffled.length) shuffleMeter();
+  var task = meterShuffled[meterIndex];
+  renderSvg(document.getElementById('meter-svg'), drawMeterSVG(task.scaleReading), false);
+  document.getElementById('meter-range').innerHTML = 'Messbereich: <b>'+task.range+' '+task.unit+'</b>';
+  document.getElementById('meter-unit-label').textContent = task.unit;
+  document.getElementById('meter-answer').value = '';
+  document.getElementById('meter-fb').className = 'meter-fb';
+  document.getElementById('meter-next').className = 'meter-next';
+}
+
+function checkMeter(){
+  var task = meterShuffled[meterIndex];
+  var correctAnswer = (task.scaleReading / 10) * task.range;
+  var input = document.getElementById('meter-answer').value.replace(',','.');
+  var userAnswer = parseFloat(input);
+  var fb = document.getElementById('meter-fb');
+
+  if(isNaN(userAnswer)){
+    fb.className='meter-fb show wrong';
+    fb.textContent='Bitte eine Zahl eingeben!';
+    return;
+  }
+
+  meterTotal++;
+  var tolerance = Math.abs(correctAnswer)*0.05;
+  if(tolerance<0.1) tolerance=0.1;
+
+  var correctStr = correctAnswer.toString().replace('.',',');
+
+  if(Math.abs(userAnswer-correctAnswer)<=tolerance){
+    meterRight++;
+    fb.className='meter-fb show correct';
+    fb.textContent='Richtig! Skalenwert '+task.scaleReading.toString().replace('.',',')+' bei Messbereich '+task.range+' '+task.unit+' = '+correctStr+' '+task.unit;
+  } else {
+    fb.className='meter-fb show wrong';
+    fb.innerHTML='Leider falsch! Skalenwert '+task.scaleReading.toString().replace('.',',')+' &divide; 10 &times; '+task.range+' = <b>'+correctStr+' '+task.unit+'</b>';
+  }
+
+  document.getElementById('meter-right').textContent=meterRight;
+  document.getElementById('meter-total').textContent=meterTotal;
+  document.getElementById('meter-next').className='meter-next show';
+}
+
+function newMeterTask(){
+  meterIndex++;
+  showMeterTask();
+}
+
+// ============================================================
+//  STROMKREIS-CHECK (SVG-basiert)
+// ============================================================
+
+function circSvgSimple(sw_closed, lampOk){
+  var s = '<svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">';
+  var lit = sw_closed && lampOk;
+  var wc = lit?'#0984e3':'#999';
+
+  // Battery left
+  s += svgWire(40,30,40,65,wc);
+  s += svgBattery(40,75);
+  s += svgWire(40,85,40,130,wc);
+
+  // Top wire
+  s += svgWire(40,30,110,30,wc);
+
+  // Switch (non-interactive for quiz)
+  s += '<circle cx="110" cy="30" r="4" fill="#333"/>';
+  s += '<circle cx="160" cy="30" r="4" fill="#333"/>';
+  if(sw_closed){
+    s += '<line x1="110" y1="30" x2="160" y2="30" stroke="#00b894" stroke-width="3"/>';
+    s += '<text x="135" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#00b894" font-family="sans-serif">ZU</text>';
+  } else {
+    s += '<line x1="110" y1="30" x2="152" y2="8" stroke="#e17055" stroke-width="3"/>';
+    s += '<text x="135" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#e17055" font-family="sans-serif">OFFEN</text>';
+  }
+
+  // Wire to lamp
+  s += svgWire(160,30,300,30,wc);
+  s += svgWire(300,30,300,59,wc);
+
+  // Lamp
+  if(lampOk){
+    s += svgLamp(300,75,lit);
+  } else {
+    s += '<circle cx="300" cy="75" r="16" fill="none" stroke="#e17055" stroke-width="2.5" stroke-dasharray="4,3"/>';
+    s += '<line x1="289" y1="64" x2="311" y2="86" stroke="#e17055" stroke-width="2"/>';
+    s += '<line x1="311" y1="64" x2="289" y2="86" stroke="#e17055" stroke-width="2"/>';
+    s += '<text x="300" y="100" text-anchor="middle" font-size="9" fill="#e17055" font-family="sans-serif">kaputt</text>';
+  }
+
+  s += svgWire(300,91,300,130,wc);
+  s += svgWire(300,130,40,130,wc);
+  s += '</svg>';
+  return s;
+}
+
+function circSvgSeries(sw1,sw2,lampOk){
+  var lit = sw1 && sw2 && lampOk;
+  var wc = lit?'#0984e3':'#999';
+  var s = '<svg viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">';
+
+  // Battery left
+  s += svgWire(30,30,30,65,wc);
+  s += svgBattery(30,75);
+  s += svgWire(30,85,30,130,wc);
+
+  // Top wire
+  s += svgWire(30,30,80,30,wc);
+
+  // S1
+  s += '<circle cx="80" cy="30" r="4" fill="#333"/><circle cx="130" cy="30" r="4" fill="#333"/>';
+  if(sw1){
+    s += '<line x1="80" y1="30" x2="130" y2="30" stroke="#00b894" stroke-width="3"/>';
+    s += '<text x="105" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#00b894" font-family="sans-serif">S\u2081 ZU</text>';
+  } else {
+    s += '<line x1="80" y1="30" x2="122" y2="8" stroke="#e17055" stroke-width="3"/>';
+    s += '<text x="105" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#e17055" font-family="sans-serif">S\u2081 OFFEN</text>';
+  }
+
+  s += svgWire(130,30,190,30,wc);
+
+  // S2
+  s += '<circle cx="190" cy="30" r="4" fill="#333"/><circle cx="240" cy="30" r="4" fill="#333"/>';
+  if(sw2){
+    s += '<line x1="190" y1="30" x2="240" y2="30" stroke="#00b894" stroke-width="3"/>';
+    s += '<text x="215" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#00b894" font-family="sans-serif">S\u2082 ZU</text>';
+  } else {
+    s += '<line x1="190" y1="30" x2="232" y2="8" stroke="#e17055" stroke-width="3"/>';
+    s += '<text x="215" y="50" text-anchor="middle" font-size="10" font-weight="600" fill="#e17055" font-family="sans-serif">S\u2082 OFFEN</text>';
+  }
+
+  s += svgWire(240,30,340,30,wc);
+  s += svgWire(340,30,340,59,wc);
+
+  // Lamp
+  if(lampOk){
+    s += svgLamp(340,75,lit);
+  } else {
+    s += '<circle cx="340" cy="75" r="16" fill="none" stroke="#e17055" stroke-width="2.5" stroke-dasharray="4,3"/>';
+    s += '<line x1="329" y1="64" x2="351" y2="86" stroke="#e17055" stroke-width="2"/>';
+    s += '<line x1="351" y1="64" x2="329" y2="86" stroke="#e17055" stroke-width="2"/>';
+    s += '<text x="340" y="100" text-anchor="middle" font-size="9" fill="#e17055" font-family="sans-serif">kaputt</text>';
+  }
+
+  s += svgWire(340,91,340,130,wc);
+  s += svgWire(340,130,30,130,wc);
+  s += '</svg>';
+  return s;
+}
+
+function circSvgParallel(sw1,sw2){
+  var lit = sw1||sw2;
+  var wc = lit?'#0984e3':'#999';
+  var wc1 = sw1?'#0984e3':'#999';
+  var wc2 = sw2?'#0984e3':'#999';
+  var s = '<svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">';
+
+  // Battery left
+  s += svgWire(30,40,30,85,wc);
+  s += svgBattery(30,95);
+  s += svgWire(30,105,30,170,wc);
+
+  // Top wire to junction
+  s += svgWire(30,40,80,40,wc);
+
+  // Junction vertical
+  s += svgWire(80,40,80,130,wc);
+
+  // Top path S1 at y=50
+  s += svgWire(80,55,100,55,wc1);
+  s += '<circle cx="100" cy="55" r="4" fill="#333"/><circle cx="150" cy="55" r="4" fill="#333"/>';
+  if(sw1){
+    s += '<line x1="100" y1="55" x2="150" y2="55" stroke="#00b894" stroke-width="3"/>';
+    s += '<text x="125" y="73" text-anchor="middle" font-size="10" font-weight="600" fill="#00b894" font-family="sans-serif">S\u2081 ZU</text>';
+  } else {
+    s += '<line x1="100" y1="55" x2="142" y2="33" stroke="#e17055" stroke-width="3"/>';
+    s += '<text x="125" y="73" text-anchor="middle" font-size="10" font-weight="600" fill="#e17055" font-family="sans-serif">S\u2081 OFFEN</text>';
+  }
+  s += svgWire(150,55,250,55,wc1);
+
+  // Bottom path S2 at y=125
+  s += svgWire(80,120,100,120,wc2);
+  s += '<circle cx="100" cy="120" r="4" fill="#333"/><circle cx="150" cy="120" r="4" fill="#333"/>';
+  if(sw2){
+    s += '<line x1="100" y1="120" x2="150" y2="120" stroke="#00b894" stroke-width="3"/>';
+    s += '<text x="125" y="140" text-anchor="middle" font-size="10" font-weight="600" fill="#00b894" font-family="sans-serif">S\u2082 ZU</text>';
+  } else {
+    s += '<line x1="100" y1="120" x2="142" y2="98" stroke="#e17055" stroke-width="3"/>';
+    s += '<text x="125" y="140" text-anchor="middle" font-size="10" font-weight="600" fill="#e17055" font-family="sans-serif">S\u2082 OFFEN</text>';
+  }
+  s += svgWire(150,120,250,120,wc2);
+
+  // Right junction
+  s += svgWire(250,55,250,120,wc);
+
+  // Wire to lamp
+  s += svgWire(250,88,310,88,wc);
+  s += svgWire(340,40,340,72,wc);
+  s += svgLamp(340,88,lit);
+  s += svgWire(340,104,340,170,wc);
+
+  // Top right wire
+  s += svgWire(250,55,340,40,wc);
+
+  // Bottom wire
+  s += svgWire(340,170,30,170,wc);
+
+  s += '</svg>';
+  return s;
+}
+
+var circuitScenarios = [
+  {
+    title:'Einfacher Stromkreis \u2013 Schalter geschlossen',
+    svg: function(){ return circSvgSimple(true,true); },
+    desc:'Batterie, geschlossener Schalter, intakte Lampe',
+    answer:true,
+    explain:'Stromkreis ist geschlossen \u2013 Strom fliesst, Lampe leuchtet!'
+  },
+  {
+    title:'Einfacher Stromkreis \u2013 Schalter offen',
+    svg: function(){ return circSvgSimple(false,true); },
+    desc:'Batterie, offener Schalter, intakte Lampe',
+    answer:false,
+    explain:'Schalter offen = Stromkreis unterbrochen. Kein Strom!'
+  },
+  {
+    title:'UND-Schaltung \u2013 beide Schalter zu',
+    svg: function(){ return circSvgSeries(true,true,true); },
+    desc:'Reihenschaltung: S\u2081 geschlossen, S\u2082 geschlossen',
+    answer:true,
+    explain:'UND-Schaltung: Beide Schalter zu = Stromkreis geschlossen!'
+  },
+  {
+    title:'UND-Schaltung \u2013 ein Schalter offen',
+    svg: function(){ return circSvgSeries(true,false,true); },
+    desc:'Reihenschaltung: S\u2081 geschlossen, S\u2082 offen',
+    answer:false,
+    explain:'UND-Schaltung: EIN Schalter offen reicht \u2013 kein Strom!'
+  },
+  {
+    title:'ODER-Schaltung \u2013 ein Schalter zu',
+    svg: function(){ return circSvgParallel(true,false); },
+    desc:'Parallelschaltung: S\u2081 geschlossen, S\u2082 offen',
+    answer:true,
+    explain:'ODER-Schaltung: Ein Schalter reicht! Strom fliesst ueber S\u2081.'
+  },
+  {
+    title:'ODER-Schaltung \u2013 beide offen',
+    svg: function(){ return circSvgParallel(false,false); },
+    desc:'Parallelschaltung: S\u2081 offen, S\u2082 offen',
+    answer:false,
+    explain:'ODER-Schaltung: Mindestens einer muss zu sein! Beide offen = kein Strom.'
+  },
+  {
+    title:'Reihenschaltung \u2013 Lampe kaputt',
+    svg: function(){ return circSvgSeries(true,true,false); },
+    desc:'Reihenschaltung: Beide Schalter zu, aber Lampe durchgebrannt',
+    answer:false,
+    explain:'Kaputte Lampe = Unterbrechung. In der Reihenschaltung geht dann nichts mehr!'
+  },
+  {
+    title:'UND-Schaltung \u2013 beide Schalter offen',
+    svg: function(){ return circSvgSeries(false,false,true); },
+    desc:'Reihenschaltung: S\u2081 offen, S\u2082 offen',
+    answer:false,
+    explain:'Beide Schalter offen \u2013 Stromkreis komplett unterbrochen!'
+  }
+];
+var circIndex=0;
+
+function showCircuit(){
+  var sc=circuitScenarios[circIndex];
+  var container=document.getElementById('circ-scenario');
+  var svgStr = sc.svg();
+  // Build HTML with title + desc, then render SVG separately
+  container.innerHTML='<div class="circ-title">'+sc.title+'</div><div id="circ-svg-wrap"></div><div class="circ-desc">'+sc.desc+'</div>';
+  renderSvg(document.getElementById('circ-svg-wrap'), svgStr, false);
+  document.getElementById('circ-fb').className='circ-fb';
+  document.getElementById('circ-counter').textContent='Aufgabe '+(circIndex+1)+' von '+circuitScenarios.length;
+  var btns=document.querySelectorAll('.circ-btn');
+  btns.forEach(function(b){b.className='circ-btn';});
+}
+
+function answerCircuit(userSaysYes){
+  var sc=circuitScenarios[circIndex];
+  var correct=(userSaysYes===sc.answer);
+  var fb=document.getElementById('circ-fb');
+  var btns=document.querySelectorAll('.circ-btn');
+  if(userSaysYes){btns[0].classList.add('selected',correct?'correct':'incorrect');}
+  else{btns[1].classList.add('selected',correct?'correct':'incorrect');}
+  fb.className='circ-fb show '+(correct?'correct':'wrong');
+  fb.innerHTML=(correct?'Richtig! ':'Leider falsch! ')+sc.explain;
+}
+
+function nextCircuit(){
+  circIndex=(circIndex+1)%circuitScenarios.length;
+  showCircuit();
+}
+
+// ============================================================
+//  EINHEITEN-UMRECHNER
+// ============================================================
+var calcRight=0,calcTotal=0,calcCorrectAnswer=0;
+var calcTasks=[
+  {val:500,from:'mA',to:'A',answer:0.5},
+  {val:2500,from:'mA',to:'A',answer:2.5},
+  {val:80,from:'mA',to:'A',answer:0.08},
+  {val:150,from:'mA',to:'A',answer:0.15},
+  {val:3200,from:'mA',to:'A',answer:3.2},
+  {val:1.5,from:'A',to:'mA',answer:1500},
+  {val:0.25,from:'A',to:'mA',answer:250},
+  {val:0.08,from:'A',to:'mA',answer:80},
+  {val:4.7,from:'A',to:'mA',answer:4700},
+  {val:0.001,from:'A',to:'mA',answer:1},
+  {val:12000,from:'V',to:'kV',answer:12},
+  {val:3500,from:'mV',to:'V',answer:3.5},
+  {val:0.5,from:'kV',to:'V',answer:500},
+  {val:230,from:'V',to:'mV',answer:230000},
+  {val:45,from:'mA',to:'A',answer:0.045}
+];
+var calcIndex=0,calcShuffled=[];
+
+function shuffleCalc(){
+  calcShuffled=calcTasks.slice();
+  for(var i=calcShuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=calcShuffled[i];calcShuffled[i]=calcShuffled[j];calcShuffled[j]=t;}
+  calcIndex=0;
+}
+
+function showCalcTask(){
+  if(calcIndex>=calcShuffled.length) shuffleCalc();
+  var task=calcShuffled[calcIndex];
+  document.getElementById('calc-val').textContent=task.val.toString().replace('.',',')+' '+task.from;
+  document.getElementById('calc-target-unit').textContent=task.to;
+  document.getElementById('calc-display-unit').textContent=task.to;
+  calcCorrectAnswer=task.answer;
+  document.getElementById('calc-answer').value='';
+  document.getElementById('calc-fb').className='calc-fb';
+  document.getElementById('calc-next').className='calc-next';
+}
+
+function checkCalc(){
+  var input=document.getElementById('calc-answer').value.replace(',','.');
+  var userAnswer=parseFloat(input);
+  var fb=document.getElementById('calc-fb');
+  if(isNaN(userAnswer)){fb.className='calc-fb show wrong';fb.textContent='Bitte eine Zahl eingeben!';return;}
+  calcTotal++;
+  var tol=Math.abs(calcCorrectAnswer)*0.01;if(tol<0.001)tol=0.001;
+  var correctStr=calcCorrectAnswer.toString().replace('.',',');
+  var task=calcShuffled[calcIndex];
+  if(Math.abs(userAnswer-calcCorrectAnswer)<=tol){
+    calcRight++;
+    fb.className='calc-fb show correct';
+    fb.textContent='Richtig! '+task.val.toString().replace('.',',')+' '+task.from+' = '+correctStr+' '+task.to;
+  } else {
+    fb.className='calc-fb show wrong';
+    fb.textContent='Leider falsch! '+task.val.toString().replace('.',',')+' '+task.from+' = '+correctStr+' '+task.to;
+  }
+  document.getElementById('calc-right').textContent=calcRight;
+  document.getElementById('calc-total').textContent=calcTotal;
+  document.getElementById('calc-next').className='calc-next show';
+}
+
+function newCalcTask(){calcIndex++;showCalcTask();}
+
+// ============================================================
+//  MATCHING-SPIEL (Zuordnung)
+// ============================================================
+var matchGroups = [
+  { title:'\u26a1 Formelzeichen & Einheiten', pairs:[
+    ['Stromstaerke','Ampere (A)'],['Spannung','Volt (V)'],['Formelz. Strom','I'],['Formelz. Spannung','U']
+  ]},
+  { title:'\ud83d\udca1 Wirkungen & Beispiele', pairs:[
+    ['Lichtwirkung','Lampe, Display'],['Waermewirkung','Buegeleisen, Toaster'],['Magnet. Wirkung','E-Motor, Lautsprecher'],['Chem. Wirkung','Akku laden']
+  ]},
+  { title:'\ud83d\udd0c Schaltungen', pairs:[
+    ['Reihenschaltung','hintereinander'],['Parallelschaltung','nebeneinander'],['UND-Schaltung','ALLE Schalter noetig'],['ODER-Schaltung','EIN Schalter reicht']
+  ]},
+  { title:'\ud83d\udd0d Messgeraete', pairs:[
+    ['Amperemeter','in Reihe'],['Voltmeter','parallel'],['Stromstaerke misst','I in Ampere'],['Spannung misst','U in Volt']
+  ]}
+];
+var matchRight=0, matchTotal=0, matchSelected=null;
+
+function initMatchGame(){
+  var container = document.getElementById('match-game');
+  var h = '<div class="mg-hint">Tippe links einen Begriff, dann rechts die passende Antwort!</div>';
+
+  for(var g=0; g<matchGroups.length; g++){
+    var group = matchGroups[g];
+    h += '<div class="mg-group-title">'+group.title+'</div>';
+
+    // Shuffle right side
+    var rights = [];
+    for(var i=0; i<group.pairs.length; i++) rights.push(group.pairs[i][1]);
+    for(var i=rights.length-1; i>0; i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=rights[i]; rights[i]=rights[j]; rights[j]=t;
+    }
+
+    for(var i=0; i<group.pairs.length; i++){
+      h += '<div class="mg-row">';
+      h += '<div class="mg-left" data-mg="'+g+'-'+i+'" data-answer="'+group.pairs[i][1]+'">'+group.pairs[i][0]+'</div>';
+      h += '<div class="mg-arrow">\u27a4</div>';
+      h += '<div class="mg-right" data-mg-right="'+g+'" data-val="'+rights[i]+'">'+rights[i]+'</div>';
+      h += '</div>';
+    }
+  }
+  container.innerHTML = h;
+  matchSelected = null;
+  matchRight = 0; matchTotal = 0;
+  document.getElementById('match-right').textContent = '0';
+  document.getElementById('match-total').textContent = '0';
+
+  // Add click handlers
+  var lefts = container.querySelectorAll('.mg-left');
+  for(var i=0; i<lefts.length; i++){
+    (function(el){
+      el.addEventListener('click', function(){
+        if(el.classList.contains('matched')) return;
+        // Deselect previous
+        var prev = container.querySelectorAll('.mg-left.selected');
+        for(var j=0; j<prev.length; j++) prev[j].classList.remove('selected');
+        el.classList.add('selected');
+        matchSelected = el;
+      });
+    })(lefts[i]);
+  }
+
+  var rghts = container.querySelectorAll('.mg-right');
+  for(var i=0; i<rghts.length; i++){
+    (function(el){
+      el.addEventListener('click', function(){
+        if(!matchSelected || el.classList.contains('matched')) return;
+        var correctAnswer = matchSelected.getAttribute('data-answer');
+        var clickedVal = el.getAttribute('data-val');
+        matchTotal++;
+
+        if(clickedVal === correctAnswer){
+          matchRight++;
+          matchSelected.classList.remove('selected');
+          matchSelected.classList.add('matched');
+          el.classList.add('matched');
+          matchSelected = null;
+        } else {
+          el.classList.add('wrong');
+          setTimeout(function(){ el.classList.remove('wrong'); }, 500);
+        }
+
+        document.getElementById('match-right').textContent = matchRight;
+        document.getElementById('match-total').textContent = matchTotal;
+      });
+    })(rghts[i]);
+  }
+}
+
+// ============================================================
+//  SORTIER-AUFGABE (mehrere Challenges)
+// ============================================================
+var sortChallenges = [
+  {
+    title: 'Erste Hilfe bei Stromunfall',
+    desc: 'Tippe die Schritte in der richtigen Reihenfolge an!',
+    steps: ['Stromquelle sichern (Sicherungskasten)','Person mit Holz/Plastik vom Strom trennen','Notruf 112 anrufen','Herzdruckmassage (falls kein Herzschlag)'],
+    successMsg: '<b>1.</b> Strom aus \u2192 <b>2.</b> Trennen \u2192 <b>3.</b> 112 \u2192 <b>4.</b> Herzdruckmassage'
+  },
+  {
+    title: 'Messgeraet anschliessen',
+    desc: 'In welcher Reihenfolge schliesst du ein Messgeraet an?',
+    steps: ['Pluspol des Messgeraets an Pluspol anschliessen','Minuspol des Messgeraets an Minuspol anschliessen','Groessten Messbereich einstellen','Wert ablesen und Einheit notieren'],
+    successMsg: '<b>1.</b> Plus an Plus \u2192 <b>2.</b> Minus an Minus \u2192 <b>3.</b> Groessten Messbereich \u2192 <b>4.</b> Ablesen'
+  },
+  {
+    title: 'Stromkreis aufbauen',
+    desc: 'In welcher Reihenfolge baust du einen Stromkreis auf?',
+    steps: ['Schaltplan zeichnen (gerade Linien, rechte Winkel)','Bauteile bereitlegen (Batterie, Kabel, Lampe)','Stromkreis nach Schaltplan aufbauen','Schalter schliessen und pruefen'],
+    successMsg: '<b>1.</b> Schaltplan \u2192 <b>2.</b> Bauteile \u2192 <b>3.</b> Aufbauen \u2192 <b>4.</b> Pruefen'
+  }
+];
+var sortChallengeIndex = 0;
+var sortCorrectOrder = [];
+var sortUserOrder = [], sortPlaced = 0;
+
+function initSort(){
+  var ch = sortChallenges[sortChallengeIndex];
+  sortCorrectOrder = ch.steps;
+  document.getElementById('sort-desc').innerHTML = '<b>'+ch.title+'</b> \u2013 '+ch.desc;
+
+  var items = sortCorrectOrder.slice();
+  for(var i=items.length-1; i>0; i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=items[i]; items[i]=items[j]; items[j]=t;
+  }
+  var c = document.getElementById('sort-items');
+  c.innerHTML = '';
+  sortUserOrder = [];
+  sortPlaced = 0;
+
+  for(var i=0; i<items.length; i++){
+    var div = document.createElement('div');
+    div.className = 'sort-item';
+    div.setAttribute('data-text', items[i]);
+    div.innerHTML = '<div class="sort-num">\u2013</div><div class="sort-text">'+items[i]+'</div>';
+    div.addEventListener('click', sortItemClick);
+    c.appendChild(div);
+  }
+  document.getElementById('sort-fb').className = 'sort-fb';
+  document.getElementById('sort-reset').className = 'sort-reset';
+  document.getElementById('sort-check').style.display = 'block';
+  document.getElementById('sort-next-challenge').style.display = 'none';
+}
+
+function sortItemClick(){
+  if(this.classList.contains('placed')) return;
+  sortPlaced++;
+  this.classList.add('placed');
+  this.querySelector('.sort-num').textContent = sortPlaced;
+  sortUserOrder.push(this.getAttribute('data-text'));
+}
+
+function checkSort(){
+  var n = sortCorrectOrder.length;
+  if(sortUserOrder.length < n){
+    var fb = document.getElementById('sort-fb');
+    fb.className = 'sort-fb show wrong';
+    fb.textContent = 'Tippe erst alle '+n+' Schritte in deiner Reihenfolge an!';
+    return;
+  }
+  var allRight = true;
+  var items = document.getElementById('sort-items').querySelectorAll('.sort-item');
+  for(var i=0; i<items.length; i++){
+    var text = items[i].getAttribute('data-text');
+    var uP = sortUserOrder.indexOf(text);
+    var cP = sortCorrectOrder.indexOf(text);
+    if(uP === cP){
+      items[i].classList.add('right');
+      items[i].classList.remove('wrong-pos');
+    } else {
+      items[i].classList.add('wrong-pos');
+      items[i].classList.remove('right');
+      allRight = false;
+    }
+  }
+  var fb = document.getElementById('sort-fb');
+  var ch = sortChallenges[sortChallengeIndex];
+  if(allRight){
+    fb.className = 'sort-fb show correct';
+    fb.innerHTML = 'Super! Richtige Reihenfolge:<br>'+ch.successMsg;
+    if(sortChallengeIndex < sortChallenges.length - 1){
+      document.getElementById('sort-next-challenge').style.display = 'inline-block';
+    }
+  } else {
+    fb.className = 'sort-fb show wrong';
+    fb.innerHTML = 'Nicht ganz! Die richtige Reihenfolge:<br>'+ch.successMsg;
+    document.getElementById('sort-reset').className = 'sort-reset show';
+  }
+  document.getElementById('sort-check').style.display = 'none';
+}
+
+function resetSort(){ initSort(); }
+
+function nextSortChallenge(){
+  sortChallengeIndex = (sortChallengeIndex + 1) % sortChallenges.length;
+  initSort();
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+buildSimTabs(); drawSim();
+initMatchGame();
+shuffleMeter(); showMeterTask();
+shuffleCalc(); showCalcTask();
+initSort();
+showCircuit();
+
+document.getElementById('calc-answer').addEventListener('keydown',function(e){if(e.key==='Enter')checkCalc();});
+document.getElementById('meter-answer').addEventListener('keydown',function(e){if(e.key==='Enter')checkMeter();});
+</script>
+
+</body>
+</html>
