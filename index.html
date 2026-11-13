@@ -369,7 +369,7 @@ hr.sep{border:none;height:2px;background:linear-gradient(90deg,transparent,#ddd,
 
 <div class="fc-item"><input type="checkbox" id="fc19"><label for="fc19" class="fc-card"><div class="fc-inner">
 <div class="fc-face fc-front"><div class="q">3 Schritte beim Messgerät?</div><span class="tl tl-me">Messen</span><div class="tip">Tippe zum Umdrehen</div></div>
-<div class="fc-face fc-back"><div class="a"><b>1.</b> Pluspol an Pluspol<br><b>2.</b> Minuspol an Minuspol<br><b>3.</b> <b>Größten Messbereich</b> einstellen!</div></div>
+<div class="fc-face fc-back"><div class="a"><b>1.</b> <b>Größten Messbereich</b> einstellen!<br><b>2.</b> Pluspol an Pluspol<br><b>3.</b> Minuspol an Minuspol</div></div>
 </div></label></div>
 
 </div></div>
@@ -493,13 +493,13 @@ hr.sep{border:none;height:2px;background:linear-gradient(90deg,transparent,#ddd,
 <div class="qfb qr">&#128161; Rasenmäher = UND-Schaltung (alle Sicherheitsschalter müssen an sein).</div>
 <div class="qfb qw2">&#128161; Der <b>Rasenmäher</b> ist ein UND-Schaltung-Beispiel.</div></div>
 
-<div class="quiz-q"><p><span class="num">15</span>3. Schritt beim Messgerät anschließen?</p>
+<div class="quiz-q"><p><span class="num">15</span>Was machst du beim Messgerät als Erstes?</p>
 <input type="radio" name="q15" id="q15a" class="qw"><label for="q15a">Minus an Minus</label>
 <input type="radio" name="q15" id="q15b" class="qw"><label for="q15b">Plus an Plus</label>
 <input type="radio" name="q15" id="q15c" class="qc"><label for="q15c">Größten Messbereich einstellen</label>
 <input type="radio" name="q15" id="q15d" class="qw"><label for="q15d">Ablesen</label>
-<div class="qfb qr">&#128161; Schritt 3 = größten Messbereich einstellen. Nicht vergessen!</div>
-<div class="qfb qw2">&#128161; Der 3. Schritt: <b>Größten Messbereich einstellen</b>!</div></div>
+<div class="qfb qr">&#128161; Zuerst den größten Messbereich einstellen, erst dann anschließen. So geht das Messgerät nicht kaputt!</div>
+<div class="qfb qw2">&#128161; Als Erstes: <b>Größten Messbereich einstellen</b>, dann anschließen!</div></div>
 
 </div></div>
 
@@ -1063,12 +1063,12 @@ var meterRight=0, meterTotal=0;
 
 // Tasks: scaleReading is where needle points on 0-10 scale, range determines actual value
 var meterTasks = [
-  {scaleReading:6, range:100, unit:'mA'},    // 60 mA
+  {scaleReading:8, range:300, unit:'mA'},    // 240 mA
   {scaleReading:5, range:30, unit:'mA'},     // 15 mA
   {scaleReading:7, range:10, unit:'mA'},     // 7 mA
   {scaleReading:3, range:100, unit:'mA'},    // 30 mA
   {scaleReading:8, range:3, unit:'A'},       // 2.4 A
-  {scaleReading:4.5, range:30, unit:'mA'},   // 13.5 mA
+  {scaleReading:5.5, range:30, unit:'mA'},   // 16.5 mA
   {scaleReading:2, range:100, unit:'mA'},    // 20 mA
   {scaleReading:9, range:10, unit:'mA'},     // 9 mA
   {scaleReading:3.5, range:100, unit:'mA'},  // 35 mA
@@ -1157,7 +1157,7 @@ function checkMeter(){
   var tolerance = Math.abs(correctAnswer)*0.05;
   if(tolerance<0.1) tolerance=0.1;
 
-  var correctStr = correctAnswer.toString().replace('.',',');
+  var correctStr = String(Math.round(correctAnswer*1000)/1000).replace('.',',');
 
   if(Math.abs(userAnswer-correctAnswer)<=tolerance){
     meterRight++;
@@ -1435,12 +1435,12 @@ function nextCircuit(){
 // ============================================================
 var calcRight=0,calcTotal=0,calcCorrectAnswer=0;
 var calcTasks=[
-  {val:500,from:'mA',to:'A',answer:0.5},
+  {val:750,from:'mA',to:'A',answer:0.75},
   {val:2500,from:'mA',to:'A',answer:2.5},
   {val:80,from:'mA',to:'A',answer:0.08},
   {val:150,from:'mA',to:'A',answer:0.15},
   {val:3200,from:'mA',to:'A',answer:3.2},
-  {val:1.5,from:'A',to:'mA',answer:1500},
+  {val:1.2,from:'A',to:'mA',answer:1200},
   {val:0.25,from:'A',to:'mA',answer:250},
   {val:0.08,from:'A',to:'mA',answer:80},
   {val:4.7,from:'A',to:'mA',answer:4700},
@@ -1599,8 +1599,8 @@ var sortChallenges = [
   {
     title: 'Messgerät anschließen',
     desc: 'In welcher Reihenfolge schließt du ein Messgerät an?',
-    steps: ['Pluspol des Messgeräts an Pluspol anschließen','Minuspol des Messgeräts an Minuspol anschließen','Größten Messbereich einstellen','Wert ablesen und Einheit notieren'],
-    successMsg: '<b>1.</b> Plus an Plus \u2192 <b>2.</b> Minus an Minus \u2192 <b>3.</b> Größten Messbereich \u2192 <b>4.</b> Ablesen'
+    steps: ['Größten Messbereich einstellen','Pluspol des Messgeräts an Pluspol anschließen','Minuspol des Messgeräts an Minuspol anschließen','Wert ablesen und Einheit notieren'],
+    successMsg: '<b>1.</b> Größten Messbereich \u2192 <b>2.</b> Plus an Plus \u2192 <b>3.</b> Minus an Minus \u2192 <b>4.</b> Ablesen'
   },
   {
     title: 'Stromkreis aufbauen',
